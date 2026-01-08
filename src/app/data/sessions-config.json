@@ -1,0 +1,260 @@
+{
+  "sessions": [
+    {
+      "id": "objective",
+      "title": "Objetivo do Produto ou Mudança",
+      "focus": "Definir claramente o que está sendo construído ou alterado e por quê",
+      "work_items": [
+        "Problema que será resolvido",
+        "Público-alvo",
+        "Resultado esperado",
+        "Fora de escopo",
+        "Critérios de sucesso"
+      ],
+      "applicability_rules": {
+        "always_required": true,
+        "reason_when_required": "Sessão fundamental para estabelecer contexto e alinhamento"
+      }
+    },
+    {
+      "id": "data_involved",
+      "title": "Dados Envolvidos",
+      "focus": "Identificar quais dados o produto utiliza",
+      "work_items": [
+        "Dados coletados",
+        "Dados gerados",
+        "Dados armazenados",
+        "Dados pessoais ou sensíveis",
+        "Origem dos dados"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "hasPersonalData",
+            "reason": "Obrigatória: produto envolve dados pessoais que precisam ser mapeados para conformidade LGPD/GDPR"
+          },
+          {
+            "condition": "hasPersistentData",
+            "reason": "Obrigatória: produto armazena dados que precisam ser inventariados"
+          }
+        ],
+        "reason_when_optional": "Opcional: produto não envolve dados pessoais ou armazenamento significativo"
+      }
+    },
+    {
+      "id": "user_journey",
+      "title": "Jornada do Usuário",
+      "focus": "Descrever como o usuário utiliza o produto na prática",
+      "work_items": [
+        "Fluxo principal",
+        "Pontos de decisão",
+        "Caminhos alternativos",
+        "Possíveis erros do usuário",
+        "Pontos de abandono"
+      ],
+      "applicability_rules": {
+        "always_required": true,
+        "reason_when_required": "Sessão fundamental para entender experiência do usuário"
+      }
+    },
+    {
+      "id": "screens_interactions",
+      "title": "Telas e Interações Principais",
+      "focus": "Definir o que aparece na interface e como o usuário interage",
+      "work_items": [
+        "Telas principais",
+        "Campos relevantes",
+        "Ações disponíveis",
+        "Textos críticos (labels, CTAs)",
+        "Consistência visual e de linguagem"
+      ],
+      "applicability_rules": {
+        "always_required": true,
+        "reason_when_required": "Sessão fundamental para design de interface"
+      }
+    },
+    {
+      "id": "critical_actions",
+      "title": "Ações Críticas",
+      "focus": "Mapear ações que geram impacto relevante",
+      "work_items": [
+        "Criação de dados",
+        "Alteração de dados",
+        "Exclusão de dados",
+        "Confirmações importantes",
+        "Automatizações sensíveis"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "hasCriticalActions",
+            "reason": "Obrigatória: produto possui ações destrutivas ou irreversíveis que exigem confirmação e auditoria"
+          }
+        ],
+        "reason_when_optional": "Opcional: produto não possui ações críticas identificadas"
+      }
+    },
+    {
+      "id": "rules_limits",
+      "title": "Regras de Uso e Limites",
+      "focus": "Definir limites e restrições de uso do produto",
+      "work_items": [
+        "Limites por perfil de usuário",
+        "Restrições de acesso",
+        "Regras de negócio",
+        "Exceções previstas",
+        "Comportamentos proibidos"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "hasAuthorizationReq",
+            "reason": "Obrigatória: produto implementa controle de acesso e permissões"
+          },
+          {
+            "condition": "accessModel:authenticated-permissions",
+            "reason": "Obrigatória: produto implementa controle de acesso e permissões"
+          }
+        ],
+        "reason_when_optional": "Opcional: produto não tem requisitos de autorização"
+      }
+    },
+    {
+      "id": "privacy_experience",
+      "title": "Privacidade na Experiência",
+      "focus": "Garantir transparência e controle sobre dados do usuário",
+      "work_items": [
+        "Comunicação sobre uso de dados",
+        "Consentimento quando aplicável",
+        "Visualização de dados pelo usuário",
+        "Edição ou exclusão de dados",
+        "Linguagem clara e acessível"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "hasPersonalData",
+            "reason": "Obrigatória: LGPD/GDPR exigem transparência e controle sobre dados pessoais"
+          }
+        ],
+        "reason_when_optional": "Opcional: produto não envolve dados pessoais"
+      }
+    },
+    {
+      "id": "sharing_integrations",
+      "title": "Compartilhamento e Integrações",
+      "focus": "Controlar quando e como dados saem do produto",
+      "work_items": [
+        "Exportações de dados",
+        "Integrações via API",
+        "Serviços terceiros envolvidos",
+        "Compartilhamentos automáticos",
+        "Compartilhamentos opcionais"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "hasSharing",
+            "reason": "Obrigatória: produto permite compartilhamento ou integração de dados"
+          }
+        ],
+        "reason_when_optional": "Opcional: produto não compartilha dados externamente"
+      }
+    },
+    {
+      "id": "errors_states",
+      "title": "Erros, Estados e Exceções",
+      "focus": "Definir comportamento do sistema em falhas ou estados incomuns",
+      "work_items": [
+        "Estados vazios",
+        "Erros esperados",
+        "Mensagens de erro",
+        "Recuperação de falhas",
+        "Prevenção de erro humano"
+      ],
+      "applicability_rules": {
+        "always_required": true,
+        "reason_when_required": "Sessão fundamental para robustez e experiência do usuário"
+      }
+    },
+    {
+      "id": "user_visible_security",
+      "title": "Segurança Visível ao Usuário",
+      "focus": "Definir proteções percebidas pelo usuário",
+      "work_items": [
+        "Autenticação e logout",
+        "Confirmações de ações sensíveis",
+        "Alertas de segurança",
+        "Gestão de sessões",
+        "Detecção de ações suspeitas"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "hasAuthenticationReq",
+            "reason": "Obrigatória: produto exige autenticação ou lida com ações/dados sensíveis"
+          },
+          {
+            "condition": "hasCriticalActions",
+            "reason": "Obrigatória: produto exige autenticação ou lida com ações/dados sensíveis"
+          },
+          {
+            "condition": "hasSensitiveData",
+            "reason": "Obrigatória: produto exige autenticação ou lida com ações/dados sensíveis"
+          }
+        ],
+        "reason_when_optional": "Opcional: produto não tem requisitos de segurança visível"
+      }
+    },
+    {
+      "id": "change_evolution",
+      "title": "Mudanças e Evolução",
+      "focus": "Avaliar impacto de mudanças ao longo do tempo",
+      "work_items": [
+        "Impacto em usuários existentes",
+        "Quebra de compatibilidade",
+        "Novo uso de dados",
+        "Necessidade de comunicação",
+        "Migração ou adaptação"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "hasAffectedExistingUsers",
+            "reason": "Obrigatória: mudança impacta usuários existentes ou comportamento do sistema"
+          },
+          {
+            "condition": "hasChangedBehavior",
+            "reason": "Obrigatória: mudança impacta usuários existentes ou comportamento do sistema"
+          },
+          {
+            "condition": "hasNewDataPurpose",
+            "reason": "Obrigatória: mudança impacta usuários existentes ou comportamento do sistema"
+          }
+        ],
+        "reason_when_optional": "Opcional: trabalho novo sem impacto em funcionalidades existentes"
+      }
+    },
+    {
+      "id": "decisions_commitments",
+      "title": "Decisões e Compromissos",
+      "focus": "Registrar decisões tomadas conscientemente",
+      "work_items": [
+        "Trade-offs aceitos",
+        "Riscos assumidos",
+        "Decisões adiadas",
+        "Responsáveis",
+        "Data das decisões"
+      ],
+      "applicability_rules": {
+        "required_when": [
+          {
+            "condition": "isHighRisk",
+            "reason": "Obrigatória: projeto de alto risco exige registro formal de decisões e trade-offs"
+          }
+        ],
+        "reason_when_optional": "Opcional: recomendado para rastreabilidade de decisões importantes"
+      }
+    }
+  ]
+}

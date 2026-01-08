@@ -1,0 +1,1517 @@
+{
+  "sessions": [
+    {
+      "id": "objective",
+      "title": "Objetivo do Produto ou Mudança",
+      "focus": "Definir claramente o que está sendo construído ou alterado e por quê",
+      "work_items": [
+        "Problema que será resolvido",
+        "Público-alvo",
+        "Resultado esperado",
+        "Fora de escopo",
+        "Critérios de sucesso"
+      ]
+    },
+    {
+      "id": "data_involved",
+      "title": "Dados Envolvidos",
+      "focus": "Identificar quais dados o produto utiliza",
+      "work_items": [
+        "Dados coletados",
+        "Dados gerados",
+        "Dados armazenados",
+        "Dados pessoais ou sensíveis",
+        "Origem dos dados"
+      ]
+    },
+    {
+      "id": "user_journey",
+      "title": "Jornada do Usuário",
+      "focus": "Descrever como o usuário utiliza o produto na prática",
+      "work_items": [
+        "Fluxo principal",
+        "Pontos de decisão",
+        "Caminhos alternativos",
+        "Possíveis erros do usuário",
+        "Pontos de abandono"
+      ]
+    },
+    {
+      "id": "screens_interactions",
+      "title": "Telas e Interações Principais",
+      "focus": "Definir o que aparece na interface e como o usuário interage",
+      "work_items": [
+        "Telas principais",
+        "Campos relevantes",
+        "Ações disponíveis",
+        "Textos críticos (labels, CTAs)",
+        "Consistência visual e de linguagem"
+      ]
+    },
+    {
+      "id": "critical_actions",
+      "title": "Ações Críticas",
+      "focus": "Mapear ações que geram impacto relevante",
+      "work_items": [
+        "Criação de dados",
+        "Alteração de dados",
+        "Exclusão de dados",
+        "Confirmações importantes",
+        "Automatizações sensíveis"
+      ]
+    },
+    {
+      "id": "rules_limits",
+      "title": "Regras de Uso e Limites",
+      "focus": "Definir limites e restrições de uso do produto",
+      "work_items": [
+        "Limites por perfil de usuário",
+        "Restrições de acesso",
+        "Regras de negócio",
+        "Exceções previstas",
+        "Comportamentos proibidos"
+      ]
+    },
+    {
+      "id": "privacy_experience",
+      "title": "Privacidade na Experiência",
+      "focus": "Garantir transparência e controle sobre dados do usuário",
+      "work_items": [
+        "Comunicação sobre uso de dados",
+        "Consentimento quando aplicável",
+        "Visualização de dados pelo usuário",
+        "Edição ou exclusão de dados",
+        "Linguagem clara e acessível"
+      ]
+    },
+    {
+      "id": "sharing_integrations",
+      "title": "Compartilhamento e Integrações",
+      "focus": "Controlar quando e como dados saem do produto",
+      "work_items": [
+        "Exportações de dados",
+        "Integrações via API",
+        "Serviços terceiros envolvidos",
+        "Compartilhamentos automáticos",
+        "Compartilhamentos opcionais"
+      ]
+    },
+    {
+      "id": "errors_states",
+      "title": "Erros, Estados e Exceções",
+      "focus": "Definir comportamento do sistema em falhas ou estados incomuns",
+      "work_items": [
+        "Estados vazios",
+        "Erros esperados",
+        "Mensagens de erro",
+        "Recuperação de falhas",
+        "Prevenção de erro humano"
+      ]
+    },
+    {
+      "id": "user_visible_security",
+      "title": "Segurança Visível ao Usuário",
+      "focus": "Definir proteções percebidas pelo usuário",
+      "work_items": [
+        "Autenticação e logout",
+        "Confirmações de ações sensíveis",
+        "Alertas de segurança",
+        "Gestão de sessões",
+        "Detecção de ações suspeitas"
+      ]
+    },
+    {
+      "id": "change_evolution",
+      "title": "Mudanças e Evolução",
+      "focus": "Avaliar impacto de mudanças ao longo do tempo",
+      "work_items": [
+        "Impacto em usuários existentes",
+        "Quebra de compatibilidade",
+        "Novo uso de dados",
+        "Necessidade de comunicação",
+        "Migração ou adaptação"
+      ]
+    },
+    {
+      "id": "decisions_commitments",
+      "title": "Decisões e Compromissos",
+      "focus": "Registrar decisões tomadas conscientemente",
+      "work_items": [
+        "Trade-offs aceitos",
+        "Riscos assumidos",
+        "Decisões adiadas",
+        "Responsáveis",
+        "Data das decisões"
+      ]
+    }
+  ],
+  "iso_mapping_assumptions": {
+    "iso_9001": "2015",
+    "iso_iec_27001": "2022 (clauses 4-10 + Annex A controls)",
+    "iso_iec_27701": "2019 (clause 5 PIMS, clause 6 controller, clause 7 processor)",
+    "scope_note": "Mapeamento indicativo: cláusulas tipicamente atendidas quando o time entrega o work_item como artefato do processo de construção de software SaaS (não garante conformidade/certificação)."
+  },
+  "work_item_compliance": {
+    "objective": [
+      {
+        "index": 0,
+        "work_item": "Problema que serÇ­ resolvido",
+        "iso_9001_2015": ["4.1", "4.2", "6.1", "8.2.2"],
+        "iso_iec_27001_2022_clauses": ["4.1", "4.2", "6.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.8"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 1,
+        "work_item": "PÇ§blico-alvo",
+        "iso_9001_2015": ["4.2", "8.2.2"],
+        "iso_iec_27001_2022_clauses": ["4.2", "6.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.8"],
+        "iso_iec_27701_2019_clauses": ["5", "6"]
+      },
+      {
+        "index": 2,
+        "work_item": "Resultado esperado",
+        "iso_9001_2015": ["6.2", "8.2.1", "9.1.1"],
+        "iso_iec_27001_2022_clauses": ["6.2", "9.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.8"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 3,
+        "work_item": "Fora de escopo",
+        "iso_9001_2015": ["4.3", "8.2.2"],
+        "iso_iec_27001_2022_clauses": ["4.3"],
+        "iso_iec_27001_2022_annexA": ["A.5.1"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 4,
+        "work_item": "CritÇ¸rios de sucesso",
+        "iso_9001_2015": ["6.2", "9.1.1", "9.1.3", "10.3"],
+        "iso_iec_27001_2022_clauses": ["6.2", "9.1", "10.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.15", "A.8.16"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      }
+    ],
+    "data_involved": [
+      {
+        "index": 0,
+        "work_item": "Dados coletados",
+        "iso_9001_2015": ["8.2.2", "8.3.3", "7.5"],
+        "iso_iec_27001_2022_clauses": ["6.1", "8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.12", "A.8.24"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      },
+      {
+        "index": 1,
+        "work_item": "Dados gerados",
+        "iso_9001_2015": ["8.3.5", "7.5"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.12", "A.8.10"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      },
+      {
+        "index": 2,
+        "work_item": "Dados armazenados",
+        "iso_9001_2015": ["7.1.3", "8.5.1", "7.5"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.13", "A.8.24", "A.8.10"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      },
+      {
+        "index": 3,
+        "work_item": "Dados pessoais ou sensÇðveis",
+        "iso_9001_2015": ["8.2.2", "6.1"],
+        "iso_iec_27001_2022_clauses": ["6.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.12", "A.8.11", "A.8.12", "A.8.24"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      },
+      {
+        "index": 4,
+        "work_item": "Origem dos dados",
+        "iso_9001_2015": ["8.2.2", "8.4.1"],
+        "iso_iec_27001_2022_clauses": ["6.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.19", "A.5.23", "A.5.14"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      }
+    ],
+    "user_journey": [
+      {
+        "index": 0,
+        "work_item": "Fluxo principal",
+        "iso_9001_2015": ["8.2.2", "8.3.3", "8.3.5"],
+        "iso_iec_27001_2022_clauses": ["6.1", "8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26", "A.8.27"],
+        "iso_iec_27701_2019_clauses": ["5", "6"]
+      },
+      {
+        "index": 1,
+        "work_item": "Pontos de decisÇœo",
+        "iso_9001_2015": ["8.3.3", "8.3.4"],
+        "iso_iec_27001_2022_clauses": ["6.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26"],
+        "iso_iec_27701_2019_clauses": ["5", "6"]
+      },
+      {
+        "index": 2,
+        "work_item": "Caminhos alternativos",
+        "iso_9001_2015": ["8.3.3", "8.3.5"],
+        "iso_iec_27001_2022_clauses": ["6.1", "8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.29"],
+        "iso_iec_27701_2019_clauses": ["5", "6"]
+      },
+      {
+        "index": 3,
+        "work_item": "PossÇðveis erros do usuÇ­rio",
+        "iso_9001_2015": ["8.5.1", "8.7", "10.2"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.15", "A.8.16"],
+        "iso_iec_27701_2019_clauses": ["5", "7"]
+      },
+      {
+        "index": 4,
+        "work_item": "Pontos de abandono",
+        "iso_9001_2015": ["9.1.2", "9.1.3", "10.3"],
+        "iso_iec_27001_2022_clauses": ["9.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.16"],
+        "iso_iec_27701_2019_clauses": ["5", "6"]
+      }
+    ],
+    "screens_interactions": [
+      {
+        "index": 0,
+        "work_item": "Telas principais",
+        "iso_9001_2015": ["8.3.3", "8.3.5"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26", "A.8.27"],
+        "iso_iec_27701_2019_clauses": ["5", "6"]
+      },
+      {
+        "index": 1,
+        "work_item": "Campos relevantes",
+        "iso_9001_2015": ["8.3.3", "8.2.2"],
+        "iso_iec_27001_2022_clauses": ["6.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.12", "A.8.26"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      },
+      {
+        "index": 2,
+        "work_item": "AÇõÇæes disponÇðveis",
+        "iso_9001_2015": ["8.3.3", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.15", "A.8.26"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      },
+      {
+        "index": 3,
+        "work_item": "Textos crÇðticos (labels, CTAs)",
+        "iso_9001_2015": ["8.2.1", "8.3.3"],
+        "iso_iec_27001_2022_clauses": ["7.4"],
+        "iso_iec_27001_2022_annexA": [],
+        "iso_iec_27701_2019_clauses": ["6"]
+      },
+      {
+        "index": 4,
+        "work_item": "ConsistÇ¦ncia visual e de linguagem",
+        "iso_9001_2015": ["8.5.1", "9.1.2"],
+        "iso_iec_27001_2022_clauses": ["7.5"],
+        "iso_iec_27001_2022_annexA": [],
+        "iso_iec_27701_2019_clauses": ["5"]
+      }
+    ],
+    "critical_actions": [
+      {
+        "index": 0,
+        "work_item": "CriaÇõÇœo de dados",
+        "iso_9001_2015": ["8.5.1", "8.6", "8.7"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.15", "A.8.15", "A.8.16"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 1,
+        "work_item": "AlteraÇõÇœo de dados",
+        "iso_9001_2015": ["8.5.1", "8.5.6", "8.7"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.32", "A.8.15"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 2,
+        "work_item": "ExclusÇœo de dados",
+        "iso_9001_2015": ["8.5.1", "8.7"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.10", "A.8.15"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 3,
+        "work_item": "ConfirmaÇõÇæes importantes",
+        "iso_9001_2015": ["8.2.1", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26"],
+        "iso_iec_27701_2019_clauses": ["6"]
+      },
+      {
+        "index": 4,
+        "work_item": "AutomatizaÇõÇæes sensÇðveis",
+        "iso_9001_2015": ["6.1", "8.5.1", "8.5.6"],
+        "iso_iec_27001_2022_clauses": ["6.1", "8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26", "A.8.27", "A.8.29"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      }
+    ],
+    "rules_limits": [
+      {
+        "index": 0,
+        "work_item": "Limites por perfil de usuÇ­rio",
+        "iso_9001_2015": ["8.2.2", "8.3.3"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.15", "A.5.18"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 1,
+        "work_item": "RestriÇõÇæes de acesso",
+        "iso_9001_2015": ["6.1", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["6.1", "8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.15", "A.5.16", "A.5.18"],
+        "iso_iec_27701_2019_clauses": ["7"]
+      },
+      {
+        "index": 2,
+        "work_item": "Regras de negÇücio",
+        "iso_9001_2015": ["8.2.2", "8.3.3", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 3,
+        "work_item": "ExceÇõÇæes previstas",
+        "iso_9001_2015": ["8.5.1", "8.7"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.32", "A.8.15"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 4,
+        "work_item": "Comportamentos proibidos",
+        "iso_9001_2015": ["8.2.2", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["5.2", "7.3"],
+        "iso_iec_27001_2022_annexA": ["A.5.10"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      }
+    ],
+    "privacy_experience": [
+      {
+        "index": 0,
+        "work_item": "ComunicaÇõÇœo sobre uso de dados",
+        "iso_9001_2015": ["8.2.1", "8.2.2"],
+        "iso_iec_27001_2022_clauses": ["7.4"],
+        "iso_iec_27001_2022_annexA": [],
+        "iso_iec_27701_2019_clauses": ["6"]
+      },
+      {
+        "index": 1,
+        "work_item": "Consentimento quando aplicÇ­vel",
+        "iso_9001_2015": ["8.2.1"],
+        "iso_iec_27001_2022_clauses": ["4.2", "8.1"],
+        "iso_iec_27001_2022_annexA": [],
+        "iso_iec_27701_2019_clauses": ["6"]
+      },
+      {
+        "index": 2,
+        "work_item": "VisualizaÇõÇœo de dados pelo usuÇ­rio",
+        "iso_9001_2015": ["8.2.1", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.15"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 3,
+        "work_item": "EdiÇõÇœo ou exclusÇœo de dados",
+        "iso_9001_2015": ["8.5.1", "8.7"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.10", "A.5.15"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 4,
+        "work_item": "Linguagem clara e acessÇðvel",
+        "iso_9001_2015": ["8.2.1", "7.3"],
+        "iso_iec_27001_2022_clauses": ["7.4"],
+        "iso_iec_27001_2022_annexA": [],
+        "iso_iec_27701_2019_clauses": ["6"]
+      }
+    ],
+    "sharing_integrations": [
+      {
+        "index": 0,
+        "work_item": "ExportaÇõÇæes de dados",
+        "iso_9001_2015": ["8.5.1", "8.6"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.14", "A.8.24", "A.5.15"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 1,
+        "work_item": "IntegraÇõÇæes via API",
+        "iso_9001_2015": ["8.3.3", "8.4.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.19", "A.5.23", "A.8.20", "A.8.26"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 2,
+        "work_item": "ServiÇõos terceiros envolvidos",
+        "iso_9001_2015": ["8.4.1", "8.4.2"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.19", "A.5.20", "A.5.21", "A.5.22", "A.5.23"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 3,
+        "work_item": "Compartilhamentos automÇ­ticos",
+        "iso_9001_2015": ["8.2.2", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["6.1", "8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.14", "A.5.15", "A.8.12"],
+        "iso_iec_27701_2019_clauses": ["6", "7"]
+      },
+      {
+        "index": 4,
+        "work_item": "Compartilhamentos opcionais",
+        "iso_9001_2015": ["8.2.1", "8.2.2"],
+        "iso_iec_27001_2022_clauses": ["7.4"],
+        "iso_iec_27001_2022_annexA": ["A.5.15"],
+        "iso_iec_27701_2019_clauses": ["6"]
+      }
+    ],
+    "errors_states": [
+      {
+        "index": 0,
+        "work_item": "Estados vazios",
+        "iso_9001_2015": ["8.5.1", "8.2.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 1,
+        "work_item": "Erros esperados",
+        "iso_9001_2015": ["8.5.1", "8.7"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.15", "A.8.16"],
+        "iso_iec_27701_2019_clauses": ["5", "7"]
+      },
+      {
+        "index": 2,
+        "work_item": "Mensagens de erro",
+        "iso_9001_2015": ["8.2.1", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["7.4"],
+        "iso_iec_27001_2022_annexA": ["A.8.26"],
+        "iso_iec_27701_2019_clauses": ["5", "7"]
+      },
+      {
+        "index": 3,
+        "work_item": "RecuperaÇõÇœo de falhas",
+        "iso_9001_2015": ["8.7", "10.2"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.13", "A.5.30"],
+        "iso_iec_27701_2019_clauses": ["5", "7"]
+      },
+      {
+        "index": 4,
+        "work_item": "PrevenÇõÇœo de erro humano",
+        "iso_9001_2015": ["7.2", "7.3", "8.5.1"],
+        "iso_iec_27001_2022_clauses": ["7.2", "7.3"],
+        "iso_iec_27001_2022_annexA": ["A.6.3"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      }
+    ],
+    "user_visible_security": [
+      {
+        "index": 0,
+        "work_item": "AutenticaÇõÇœo e logout",
+        "iso_9001_2015": ["8.5.1", "6.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.16", "A.5.17", "A.5.15"],
+        "iso_iec_27701_2019_clauses": ["7"]
+      },
+      {
+        "index": 1,
+        "work_item": "ConfirmaÇõÇæes de aÇõÇæes sensÇðveis",
+        "iso_9001_2015": ["8.5.1", "8.7"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.26"],
+        "iso_iec_27701_2019_clauses": ["7"]
+      },
+      {
+        "index": 2,
+        "work_item": "Alertas de seguranÇõa",
+        "iso_9001_2015": ["8.7", "10.2"],
+        "iso_iec_27001_2022_clauses": ["9.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.16", "A.8.15"],
+        "iso_iec_27701_2019_clauses": ["7"]
+      },
+      {
+        "index": 3,
+        "work_item": "GestÇœo de sessÇæes",
+        "iso_9001_2015": ["8.5.1"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.16", "A.5.18"],
+        "iso_iec_27701_2019_clauses": ["7"]
+      },
+      {
+        "index": 4,
+        "work_item": "DetecÇõÇœo de aÇõÇæes suspeitas",
+        "iso_9001_2015": ["9.1.1", "10.2"],
+        "iso_iec_27001_2022_clauses": ["9.1", "10.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.16", "A.8.15"],
+        "iso_iec_27701_2019_clauses": ["7"]
+      }
+    ],
+    "change_evolution": [
+      {
+        "index": 0,
+        "work_item": "Impacto em usuÇ­rios existentes",
+        "iso_9001_2015": ["6.3", "8.3.6", "8.5.6"],
+        "iso_iec_27001_2022_clauses": ["6.1", "8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.32"],
+        "iso_iec_27701_2019_clauses": ["5", "6"]
+      },
+      {
+        "index": 1,
+        "work_item": "Quebra de compatibilidade",
+        "iso_9001_2015": ["8.3.6", "8.5.6", "8.2.4"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.32", "A.8.31"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 2,
+        "work_item": "Novo uso de dados",
+        "iso_9001_2015": ["8.2.4", "6.1"],
+        "iso_iec_27001_2022_clauses": ["6.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.12", "A.8.24"],
+        "iso_iec_27701_2019_clauses": ["5", "6", "7"]
+      },
+      {
+        "index": 3,
+        "work_item": "Necessidade de comunicaÇõÇœo",
+        "iso_9001_2015": ["8.2.1", "8.2.4"],
+        "iso_iec_27001_2022_clauses": ["7.4"],
+        "iso_iec_27001_2022_annexA": ["A.5.14"],
+        "iso_iec_27701_2019_clauses": ["6"]
+      },
+      {
+        "index": 4,
+        "work_item": "MigraÇõÇœo ou adaptaÇõÇœo",
+        "iso_9001_2015": ["8.5.6", "8.3.6"],
+        "iso_iec_27001_2022_clauses": ["8.1"],
+        "iso_iec_27001_2022_annexA": ["A.8.32", "A.8.13"],
+        "iso_iec_27701_2019_clauses": ["5", "7"]
+      }
+    ],
+    "decisions_commitments": [
+      {
+        "index": 0,
+        "work_item": "Trade-offs aceitos",
+        "iso_9001_2015": ["6.1", "8.3.3", "8.3.4"],
+        "iso_iec_27001_2022_clauses": ["6.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.8"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 1,
+        "work_item": "Riscos assumidos",
+        "iso_9001_2015": ["6.1", "10.2"],
+        "iso_iec_27001_2022_clauses": ["6.1", "10.1"],
+        "iso_iec_27001_2022_annexA": ["A.5.4"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 2,
+        "work_item": "DecisÇæes adiadas",
+        "iso_9001_2015": ["6.3", "8.3.2"],
+        "iso_iec_27001_2022_clauses": ["6.1", "6.3"],
+        "iso_iec_27001_2022_annexA": ["A.5.8"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 3,
+        "work_item": "ResponsÇ­veis",
+        "iso_9001_2015": ["5.3", "7.2"],
+        "iso_iec_27001_2022_clauses": ["5.3"],
+        "iso_iec_27001_2022_annexA": ["A.5.2"],
+        "iso_iec_27701_2019_clauses": ["5"]
+      },
+      {
+        "index": 4,
+        "work_item": "Data das decisÇæes",
+        "iso_9001_2015": ["7.5", "8.3.2"],
+        "iso_iec_27001_2022_clauses": ["7.5"],
+        "iso_iec_27001_2022_annexA": [],
+        "iso_iec_27701_2019_clauses": ["5"]
+      }
+    ]
+  }
+  ,
+  "work_item_documentation": {
+    "objective": [
+      {
+        "index": 0,
+        "work_item": "Problema que será resolvido",
+        "document_types": ["PRD (Documento de requisitos)", "Problem statement (1 página)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Público-alvo",
+        "document_types": ["Personas / ICP (lista)", "Mapa de stakeholders (lista)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Resultado esperado",
+        "document_types": ["OKRs/KPIs (lista)", "Métricas de sucesso (tabela)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Fora de escopo",
+        "document_types": ["Lista de fora de escopo (lista)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Critérios de sucesso",
+        "document_types": ["Critérios de aceitação (lista)", "Plano de métricas (tabela)"]
+      }
+    ],
+    "data_involved": [
+      {
+        "index": 0,
+        "work_item": "Dados coletados",
+        "document_types": ["Inventário de dados (tabela)", "Dicionário de dados (tabela)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Dados gerados",
+        "document_types": ["Inventário de dados (tabela)", "Especificação de eventos/logs (tabela)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Dados armazenados",
+        "document_types": ["Modelo de dados (ERD/diagrama)", "Política de retenção (tabela)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Dados pessoais ou sensíveis",
+        "document_types": ["Classificação de dados (tabela)", "ROPA/Registro de tratamento (documento)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Origem dos dados",
+        "document_types": ["Diagrama de fluxo de dados (DFD)", "Lista de fontes e contratos (lista)"]
+      }
+    ],
+    "user_journey": [
+      {
+        "index": 0,
+        "work_item": "Fluxo principal",
+        "document_types": ["Mapa de jornada (diagrama)", "Fluxo do usuário (fluxograma)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Pontos de decisão",
+        "document_types": ["Fluxograma/BPMN (diagrama)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Caminhos alternativos",
+        "document_types": ["Fluxograma/BPMN (diagrama)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Possíveis erros do usuário",
+        "document_types": ["Lista de edge cases (lista)", "Catálogo de erros (tabela)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Pontos de abandono",
+        "document_types": ["Funil/analytics (tabela)", "Mapa de jornada (diagrama)"]
+      }
+    ],
+    "screens_interactions": [
+      {
+        "index": 0,
+        "work_item": "Telas principais",
+        "document_types": ["Wireframes (design)", "Mockups/protótipo (design)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Campos relevantes",
+        "document_types": ["Especificação de formulário (tabela)", "Dicionário de dados (tabela)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Ações disponíveis",
+        "document_types": ["Especificação funcional (documento)", "Fluxo do usuário (fluxograma)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Textos críticos (labels, CTAs)",
+        "document_types": ["Guia de copy (documento)", "Lista de mensagens/CTAs (lista)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Consistência visual e de linguagem",
+        "document_types": ["Design system/UI guidelines (documento)"]
+      }
+    ],
+    "critical_actions": [
+      {
+        "index": 0,
+        "work_item": "Criação de dados",
+        "document_types": ["Especificação de API (OpenAPI)", "Modelo de dados (ERD/diagrama)", "Critérios de aceitação (lista)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Alteração de dados",
+        "document_types": ["Especificação de API (OpenAPI)", "Regras de validação (tabela)", "Critérios de aceitação (lista)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Exclusão de dados",
+        "document_types": ["Política de retenção e exclusão (documento)", "Especificação de API (OpenAPI)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Confirmações importantes",
+        "document_types": ["Wireframes (design)", "Guia de copy (documento)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Automatizações sensíveis",
+        "document_types": ["Diagrama de workflow (fluxograma)", "Design técnico (documento)", "Runbook/monitoramento (documento)"]
+      }
+    ],
+    "rules_limits": [
+      {
+        "index": 0,
+        "work_item": "Limites por perfil de usuário",
+        "document_types": ["Tabela de limites por perfil (tabela)", "Matriz de permissões (RBAC)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Restrições de acesso",
+        "document_types": ["Matriz de permissões (RBAC)", "Modelo de autorização (design)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Regras de negócio",
+        "document_types": ["Catálogo de regras de negócio (documento)", "Tabela de decisão (tabela)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Exceções previstas",
+        "document_types": ["Lista de exceções (lista)", "Tabela de decisão (tabela)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Comportamentos proibidos",
+        "document_types": ["Política de uso aceitável (documento)", "Regras/bloqueios (lista)"]
+      }
+    ],
+    "privacy_experience": [
+      {
+        "index": 0,
+        "work_item": "Comunicação sobre uso de dados",
+        "document_types": ["Política/aviso de privacidade (documento)", "Copy de privacidade (lista)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Consentimento quando aplicável",
+        "document_types": ["Fluxo de consentimento (fluxograma)", "Registro de consentimento (modelo de dados)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Visualização de dados pelo usuário",
+        "document_types": ["Wireframes (design)", "Especificação de exportação/relatório (documento)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Edição ou exclusão de dados",
+        "document_types": ["Fluxo DSAR (fluxograma)", "Procedimento de exclusão (documento)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Linguagem clara e acessível",
+        "document_types": ["Guia de linguagem (documento)", "Checklist de acessibilidade (lista)"]
+      }
+    ],
+    "sharing_integrations": [
+      {
+        "index": 0,
+        "work_item": "Exportações de dados",
+        "document_types": ["Especificação de exportação (documento)", "Formato de arquivo (tabela)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Integrações via API",
+        "document_types": ["Especificação de API (OpenAPI)", "Diagrama de sequência (diagrama)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Serviços terceiros envolvidos",
+        "document_types": ["Lista de fornecedores/integradores (lista)", "Arquitetura de integração (diagrama)", "DPA (documento)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Compartilhamentos automáticos",
+        "document_types": ["Diagrama de fluxo de dados (DFD)", "Regras de automação (tabela)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Compartilhamentos opcionais",
+        "document_types": ["Wireframes (design)", "Especificação de configuração/feature flags (documento)"]
+      }
+    ],
+    "errors_states": [
+      {
+        "index": 0,
+        "work_item": "Estados vazios",
+        "document_types": ["Wireframes (design)", "Especificação de comportamento (documento)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Erros esperados",
+        "document_types": ["Catálogo de erros (tabela)", "Casos de teste (lista)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Mensagens de erro",
+        "document_types": ["Guia de mensagens/copy (documento)", "Design de estados (design)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Recuperação de falhas",
+        "document_types": ["Runbook (documento)", "Plano de contingência (documento)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Prevenção de erro humano",
+        "document_types": ["Checklist de UX (lista)", "Regras de validação (tabela)"]
+      }
+    ],
+    "user_visible_security": [
+      {
+        "index": 0,
+        "work_item": "Autenticação e logout",
+        "document_types": ["Especificação de autenticação (documento)", "Diagrama de sequência (diagrama)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Confirmações de ações sensíveis",
+        "document_types": ["Wireframes (design)", "Guia de copy (documento)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Alertas de segurança",
+        "document_types": ["Catálogo de alertas (tabela)", "Runbook de resposta a incidentes (documento)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Gestão de sessões",
+        "document_types": ["Especificação de sessão (documento)", "Diagrama de autenticação/sessão (diagrama)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Detecção de ações suspeitas",
+        "document_types": ["Regras de detecção (tabela)", "Plano de monitoramento (documento)"]
+      }
+    ],
+    "change_evolution": [
+      {
+        "index": 0,
+        "work_item": "Impacto em usuários existentes",
+        "document_types": ["Análise de impacto (documento)", "Plano de rollout (documento)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Quebra de compatibilidade",
+        "document_types": ["Guia de migração (documento)", "Changelog (documento)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Novo uso de dados",
+        "document_types": ["Atualização do inventário de dados (tabela)", "DPIA/LIA (documento)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Necessidade de comunicação",
+        "document_types": ["Plano de comunicação (documento)", "Templates de mensagens (lista)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Migração ou adaptação",
+        "document_types": ["Plano de migração (documento)", "Runbook de migração (documento)"]
+      }
+    ],
+    "decisions_commitments": [
+      {
+        "index": 0,
+        "work_item": "Trade-offs aceitos",
+        "document_types": ["ADR (Architecture Decision Record)"]
+      },
+      {
+        "index": 1,
+        "work_item": "Riscos assumidos",
+        "document_types": ["Registro de riscos (tabela)", "Aceite de risco (documento)"]
+      },
+      {
+        "index": 2,
+        "work_item": "Decisões adiadas",
+        "document_types": ["Lista de decisões pendentes (lista)", "Backlog (lista)"]
+      },
+      {
+        "index": 3,
+        "work_item": "Responsáveis",
+        "document_types": ["RACI (matriz)"]
+      },
+      {
+        "index": 4,
+        "work_item": "Data das decisões",
+        "document_types": ["Registro de decisões (documento)"]
+      }
+    ]
+  }
+  ,
+  "design_governance_playbook": {
+    "version": "1.0",
+    "audience": "Profissionais de criação de software (SaaS)",
+    "how_to_use": [
+      "Para cada sessão aplicável, produza os entregáveis mínimos (evidências) e execute as ações de engenharia listadas.",
+      "Use os checklists como Definition of Done (DoD) e registre links para os artefatos no ticket/epic.",
+      "Quando houver dados pessoais/sensíveis, trate Sessão 05 + 08 como obrigatórias; quando houver alto risco, trate Sessão 07 como obrigatória."
+    ],
+    "sessions": [
+      {
+        "code": "00",
+        "title": "Contexto & Intenção",
+        "purpose": "Estabelecer entendimento compartilhado sobre problema, objetivo, escopo e critérios de sucesso antes de iniciar design/implementação.",
+        "deliverables": [
+          {
+            "name": "Documento de contexto (problema sendo resolvido)",
+            "type": "Documento",
+            "minimum_content": ["Problema", "Por que agora", "Impacto esperado", "Não-objetivos (fora de escopo)", "Riscos conhecidos"],
+            "how_to_execute": ["Escreva 1 página em linguagem simples", "Valide com stakeholders", "Anexe no ticket/PRD"]
+          },
+          {
+            "name": "Personas ou perfis de usuário impactados",
+            "type": "Lista",
+            "minimum_content": ["Perfis", "Necessidades", "Permissões/níveis", "Volume/criticidade"],
+            "how_to_execute": ["Liste perfis e jornadas afetadas", "Indique quais perfis criam/alteram/excluem dados"]
+          },
+          {
+            "name": "Objetivos mensuráveis da feature",
+            "type": "Lista/Tabela",
+            "minimum_content": ["Métrica", "Baseline", "Meta", "Prazo", "Como medir"],
+            "how_to_execute": ["Defina 1–3 métricas", "Garanta instrumentação (eventos/logs) para medir"]
+          },
+          {
+            "name": "Premissas e restrições conhecidas",
+            "type": "Lista",
+            "minimum_content": ["Restrições técnicas", "Restrições legais", "Dependências", "Limites de prazo/custo"],
+            "how_to_execute": ["Liste explicitamente o que não pode mudar", "Registre dependências e owners"]
+          },
+          {
+            "name": "Critérios de sucesso",
+            "type": "Lista",
+            "minimum_content": ["Critérios de aceitação", "SLO/qualidade", "Critérios de segurança/privacidade quando aplicável"],
+            "how_to_execute": ["Traduza em checks verificáveis", "Garanta que QA e negócio conseguem validar"]
+          }
+        ],
+        "engineering_actions": [
+          "Criar epic/ticket com objetivo, escopo e DoD.",
+          "Definir eventos/telemetria mínima para medir sucesso.",
+          "Registrar riscos e dependências no backlog (com responsáveis)."
+        ],
+        "checklist": [
+          "Problema está documentado de forma clara e validada",
+          "Usuários-alvo foram identificados",
+          "Objetivos estão definidos e são mensuráveis",
+          "Restrições técnicas ou de negócio foram mapeadas",
+          "Alinhamento com stakeholders está documentado"
+        ]
+      },
+      {
+        "code": "01",
+        "title": "Fluxo & Arquitetura da Informação",
+        "purpose": "Definir estrutura de navegação, hierarquia de informação e fluxos principais antes de desenhar interfaces e implementar.",
+        "deliverables": [
+          {
+            "name": "Mapa de navegação (sitemap/navigation map)",
+            "type": "Diagrama",
+            "minimum_content": ["Telas/rotas", "Entradas", "Saídas", "Restrições por permissão"],
+            "how_to_execute": ["Desenhe as rotas/telas e como se conectam", "Marque quais exigem autenticação/permissão"]
+          },
+          {
+            "name": "User flows (happy path + alternativos)",
+            "type": "Fluxograma",
+            "minimum_content": ["Happy path", "Alternativas", "Pontos de decisão", "Erros esperados"],
+            "how_to_execute": ["Modele decisões e exceções", "Identifique onde há ações sensíveis"]
+          },
+          {
+            "name": "Arquitetura de informação (hierarquia de conteúdo)",
+            "type": "Diagrama/Lista",
+            "minimum_content": ["Hierarquia", "Agrupamentos", "Nomes/labels-chave", "Consistência"],
+            "how_to_execute": ["Defina categorias e hierarquia", "Revisar linguagem com UX/negócio"]
+          },
+          {
+            "name": "Pontos de entrada e saída de cada fluxo",
+            "type": "Lista",
+            "minimum_content": ["Entrada", "Saída", "Pré-condições", "Pós-condições"],
+            "how_to_execute": ["Liste por fluxo", "Inclua estados de permissão negada"]
+          },
+          {
+            "name": "Regras de transição entre estados",
+            "type": "Lista/Tabela",
+            "minimum_content": ["Estado atual", "Evento", "Próximo estado", "Validações/gates"],
+            "how_to_execute": ["Escreva como máquina de estados simples", "Garanta cobertura para exceções"]
+          }
+        ],
+        "engineering_actions": [
+          "Definir rotas/telas/endpoints e contratos mínimos antes de codar.",
+          "Listar decisões e gates como regras testáveis (unit/integration).",
+          "Mapear onde serão emitidos eventos/telemetria por etapa do fluxo."
+        ],
+        "checklist": [
+          "Fluxo principal (happy path) está documentado",
+          "Fluxos alternativos e edge cases foram mapeados",
+          "Pontos de decisão estão claramente identificados",
+          "Hierarquia de informação está definida",
+          "Navegação entre telas está documentada"
+        ]
+      },
+      {
+        "code": "02",
+        "title": "UI - Telas Principais",
+        "purpose": "Desenhar as interfaces principais que compõem a funcionalidade e garantir consistência, acessibilidade e responsividade.",
+        "deliverables": [
+          {
+            "name": "Telas principais (high-fidelity ou wireframes)",
+            "type": "Design",
+            "minimum_content": ["Estados principais", "Campos", "Ações", "Permissões visíveis"],
+            "how_to_execute": ["Criar wireframes/mocks", "Revisar com design system", "Anexar link do protótipo"]
+          },
+          {
+            "name": "Layout e organização visual de componentes",
+            "type": "Design",
+            "minimum_content": ["Componentes", "Layout", "Espaçamentos", "Feedbacks"],
+            "how_to_execute": ["Reutilizar componentes existentes", "Evitar novos padrões sem aprovação"]
+          },
+          {
+            "name": "Hierarquia visual e priorização de elementos",
+            "type": "Design",
+            "minimum_content": ["Primário vs secundário", "CTAs", "Avisos/alertas"],
+            "how_to_execute": ["Definir ordem de leitura", "Garantir clareza para ações sensíveis"]
+          },
+          {
+            "name": "Componentes e padrões de UI utilizados",
+            "type": "Lista",
+            "minimum_content": ["Componentes", "Variações", "Regras de uso"],
+            "how_to_execute": ["Listar tokens/componentes", "Indicar dependências do design system"]
+          },
+          {
+            "name": "Responsividade (mobile/tablet/desktop se aplicável)",
+            "type": "Lista",
+            "minimum_content": ["Breakpoints", "Comportamento de layout", "Fallbacks"],
+            "how_to_execute": ["Definir comportamento por breakpoint", "Identificar restrições (ex.: tabelas)"]
+          }
+        ],
+        "engineering_actions": [
+          "Implementar UI alinhada ao design system e registrar variações novas.",
+          "Garantir acessibilidade mínima (contraste, foco, labels, teclado).",
+          "Criar testes de UI/fluxo (quando aplicável) para telas core."
+        ],
+        "checklist": [
+          "Todas as telas principais foram desenhadas",
+          "Layout está alinhado com design system",
+          "Hierarquia visual está clara",
+          "Acessibilidade básica foi considerada (contraste, tamanho de fonte)",
+          "Responsividade foi definida se aplicável"
+        ]
+      },
+      {
+        "code": "03",
+        "title": "Estados, Erros & Feedback",
+        "purpose": "Garantir que o sistema comunique estado de forma clara sem vazar informações e com boa experiência do usuário.",
+        "deliverables": [
+          {
+            "name": "Estados de carregamento (loading/skeleton)",
+            "type": "Design/Especificação",
+            "minimum_content": ["Quando aparece", "Timeout/retry", "Mensagens"],
+            "how_to_execute": ["Defina loading por etapa", "Defina tempo máximo e ação de retry"]
+          },
+          {
+            "name": "Estados vazios (empty states)",
+            "type": "Design",
+            "minimum_content": ["Quando aparece", "Ação sugerida", "Sem inferir dados privados"],
+            "how_to_execute": ["Evite indicar existência de registros que o usuário não pode ver"]
+          },
+          {
+            "name": "Mensagens de erro (validação/permissão/sistema)",
+            "type": "Lista/Tabela",
+            "minimum_content": ["Código", "Mensagem", "Ação do usuário", "Log interno"],
+            "how_to_execute": ["Padronize mensagens genéricas para permissão/enumeração", "Registre detalhes apenas em logs internos"]
+          },
+          {
+            "name": "Estados de sucesso e confirmação",
+            "type": "Design",
+            "minimum_content": ["Confirmação", "Undo quando aplicável", "Próximos passos"],
+            "how_to_execute": ["Defina confirmação clara", "Evite confirmação ambígua para ações críticas"]
+          },
+          {
+            "name": "Feedbacks de ações (toasts/alerts) e permissão negada",
+            "type": "Design",
+            "minimum_content": ["Tipo", "Tom", "Persistência", "Acessibilidade"],
+            "how_to_execute": ["Defina mensagens neutras em permissão negada", "Garanta leitura por screen readers"]
+          }
+        ],
+        "engineering_actions": [
+          "Centralizar tratamento de erro (códigos, mensagens públicas, logs internos).",
+          "Implementar mensagens que não confirmem existência de dados (anti-enumeration).",
+          "Instrumentar erros/latência e criar alertas para degradação (SLO)."
+        ],
+        "checklist": [
+          "Mensagens de erro não confirmam existência de dados",
+          "Estados vazios não inferem informação privada",
+          "Estados de permissão são explícitos e neutros",
+          "Detalhes técnicos não são expostos ao usuário",
+          "Feedbacks são claros e acionáveis",
+          "Loading states previnem percepção de timeout"
+        ]
+      },
+      {
+        "code": "04",
+        "title": "Ações Sensíveis",
+        "purpose": "Garantir que ações críticas tenham confirmação adequada, sejam auditáveis e reversíveis quando possível.",
+        "deliverables": [
+          {
+            "name": "Fluxos de confirmação para ações destrutivas",
+            "type": "Fluxograma",
+            "minimum_content": ["Pré-condições", "Confirmação", "Validações", "Resultado", "Rollback/undo"],
+            "how_to_execute": ["Modelar delete/revoke/bulk", "Definir double-confirmation quando necessário"]
+          },
+          {
+            "name": "Diálogos de confirmação com preview de impacto",
+            "type": "Design",
+            "minimum_content": ["O que muda", "O que será perdido", "Quem será afetado"],
+            "how_to_execute": ["Mostrar impacto antes de executar", "Exigir confirmação explícita"]
+          },
+          {
+            "name": "Logs/histórico de ações sensíveis (quando aplicável)",
+            "type": "Documento/Especificação",
+            "minimum_content": ["Evento", "Autor", "Timestamp", "Objeto", "Resultado", "IP/Device quando aplicável"],
+            "how_to_execute": ["Definir schema do log", "Definir retenção e acesso ao histórico"]
+          },
+          {
+            "name": "Undo/rollback quando possível",
+            "type": "Design/Documento",
+            "minimum_content": ["Janela de undo", "Limitações", "Como desfazer"],
+            "how_to_execute": ["Preferir soft-delete quando possível", "Definir job de expurgo e restauração"]
+          },
+          {
+            "name": "Validações e gates antes de ações críticas",
+            "type": "Lista/Tabela",
+            "minimum_content": ["Gate", "Regra", "Mensagem ao usuário", "Auditoria"],
+            "how_to_execute": ["Transformar gates em regras testáveis", "Registrar motivo de negação quando aplicável"]
+          },
+          {
+            "name": "Interface de gestão de permissões com preview de mudanças",
+            "type": "Interface/Design",
+            "conditions": ["Quando houver mudança de permissão/RBAC"],
+            "minimum_content": ["Preview do impacto", "Quem perde/ganha acesso", "Confirmação"],
+            "how_to_execute": ["Calcular impacto", "Exibir antes de salvar", "Registrar auditoria"]
+          },
+          {
+            "name": "Confirmação em duas etapas para transações financeiras",
+            "type": "Design/Documento",
+            "conditions": ["Quando houver transações financeiras/alto risco"],
+            "minimum_content": ["2FA/OTP/step-up", "Limites", "Timeout", "Logs"],
+            "how_to_execute": ["Aplicar step-up auth", "Registrar auditoria de tentativa e sucesso"]
+          }
+        ],
+        "engineering_actions": [
+          "Implementar auditoria (quem/quando/o quê/resultado) para ações sensíveis.",
+          "Adicionar confirmações explícitas e prevenção de clique acidental (double confirmation) quando necessário.",
+          "Criar testes automatizados para gates/validações e para reversão (quando existir)."
+        ],
+        "checklist": [
+          "Ações destrutivas requerem confirmação explícita",
+          "Impacto da ação é previamente comunicado",
+          "Usuário pode revisar antes de confirmar",
+          "Confirmação não pode ser acidental (double confirmation)",
+          "Mudanças de permissão mostram preview do impacto (quando aplicável)",
+          "Transações financeiras têm validação em duas etapas (quando aplicável)",
+          "Ações são auditáveis (timestamp, autor)"
+        ]
+      },
+      {
+        "code": "05",
+        "title": "Privacidade & Consentimento",
+        "purpose": "Garantir conformidade LGPD/GDPR e dar controle ao usuário sobre seus dados, com privacy-by-design.",
+        "deliverables": [
+          {
+            "name": "Fluxo de consentimento para coleta de dados",
+            "type": "Fluxograma",
+            "minimum_content": ["Quando pedir", "Como registrar", "Como revogar", "Efeitos da revogação"],
+            "how_to_execute": ["Definir gatilhos de consentimento", "Persistir registro e versionamento do texto"]
+          },
+          {
+            "name": "Mascaramento de dados sensíveis",
+            "type": "Design/Especificação",
+            "minimum_content": ["Campos mascarados", "Quando revelar", "Quem pode revelar", "Logs"],
+            "how_to_execute": ["Mascarar por padrão", "Exigir permissão + motivo quando revelar"]
+          },
+          {
+            "name": "Controles de visibilidade de dados pessoais",
+            "type": "Design/Documento",
+            "minimum_content": ["Campos visíveis", "Perfis", "Justificativa", "Auditoria"],
+            "how_to_execute": ["Aplicar menor privilégio", "Mapear campos por perfil (RBAC + ABAC se necessário)"]
+          },
+          {
+            "name": "Interface de gestão de consentimentos",
+            "type": "Interface",
+            "minimum_content": ["Ver consentimentos", "Revogar", "Histórico", "Preferências"],
+            "how_to_execute": ["Expor consentimentos por finalidade", "Garantir revogação simples e rastreável"]
+          },
+          {
+            "name": "Explicação de uso de dados (privacy labels)",
+            "type": "Documento",
+            "minimum_content": ["Finalidades", "Categorias de dados", "Compartilhamentos", "Retenção"],
+            "how_to_execute": ["Escrever em linguagem clara", "Manter alinhado ao que o sistema realmente faz"]
+          },
+          {
+            "name": "Consentimento explícito para dados sensíveis",
+            "type": "Fluxograma/Documento",
+            "conditions": ["Quando houver dados sensíveis (ex.: financeiros/saúde)"],
+            "minimum_content": ["Consentimento granular", "Prova de consentimento", "Revogação"],
+            "how_to_execute": ["Separar consentimentos por categoria", "Evitar bundling (consent fatigue)"]
+          },
+          {
+            "name": "Preview de dados antes de exportação",
+            "type": "Design/Interface",
+            "conditions": ["Quando houver exportação de dados"],
+            "minimum_content": ["Campos exportados", "Filtros", "Avisos de privacidade"],
+            "how_to_execute": ["Permitir revisar antes", "Aplicar mesma visibilidade que UI"]
+          }
+        ],
+        "engineering_actions": [
+          "Implementar registro de consentimento (quem/quando/versão/finalidade) e revogação efetiva.",
+          "Implementar mascaramento e controles de acesso por campo quando aplicável.",
+          "Garantir que exportação/relatórios respeitam permissões e minimização de dados."
+        ],
+        "checklist": [
+          "Consentimento é solicitado antes da coleta",
+          "Linguagem é clara e não jurídica",
+          "Dados sensíveis são mascarados por padrão",
+          "Usuário pode revogar consentimento facilmente",
+          "Finalidade do uso dos dados é explícita",
+          "Consentimento explícito para cada tipo de dado sensível (quando aplicável)",
+          "Não há consent fatigue (bundling de consentimentos)"
+        ]
+      },
+      {
+        "code": "06",
+        "title": "Compartilhamento & Exportação",
+        "purpose": "Prevenir vazamento de dados via compartilhamento/exportação com controles explícitos e rastreabilidade.",
+        "deliverables": [
+          {
+            "name": "Interface de compartilhamento com seletor de permissões",
+            "type": "Interface/Design",
+            "minimum_content": ["Quem recebe", "Que permissão", "Duração", "Confirmação"],
+            "how_to_execute": ["Padronizar permissões", "Evitar permissões implícitas"]
+          },
+          {
+            "name": "Preview de dados antes de compartilhar/exportar",
+            "type": "Design/Interface",
+            "minimum_content": ["Campos", "Escopo", "Avisos", "Regras de visibilidade"],
+            "how_to_execute": ["Mostrar exatamente o que será enviado/baixado", "Bloquear campos não visíveis"]
+          },
+          {
+            "name": "Controles de expiração de links compartilhados",
+            "type": "Design/Especificação",
+            "minimum_content": ["Expiração", "Revogação", "Auditoria", "Notificações"],
+            "how_to_execute": ["Gerar links com TTL", "Permitir revogar imediatamente"]
+          },
+          {
+            "name": "Indicadores visuais de dados compartilhados",
+            "type": "Design",
+            "minimum_content": ["Badge/label", "Onde aparece", "O que significa"],
+            "how_to_execute": ["Deixar explícito quando algo está compartilhado", "Evitar ambiguidades"]
+          },
+          {
+            "name": "Revogação de compartilhamentos ativos",
+            "type": "Design/Interface",
+            "minimum_content": ["Listagem", "Revogar", "Histórico", "Efeito imediato"],
+            "how_to_execute": ["Criar tela de gestão", "Garantir invalidar tokens/links ao revogar"]
+          },
+          {
+            "name": "Formatos e conteúdo de exportação",
+            "type": "Lista/Tabela",
+            "minimum_content": ["Formato", "Campos", "Filtros", "Limites", "Retenção"],
+            "how_to_execute": ["Definir schema", "Testar exportação com permissões diferentes"]
+          },
+          {
+            "name": "Gestão de links compartilhados (listar/revogar/expirar)",
+            "type": "Interface/Documento",
+            "conditions": ["Quando houver links públicos/compartilhamento por link"],
+            "minimum_content": ["Listar links", "Expirar", "Revogar", "Auditoria"],
+            "how_to_execute": ["Criar endpoints + UI", "Registrar uso e tentativas"]
+          }
+        ],
+        "engineering_actions": [
+          "Implementar controle de acesso e revogação imediata para compartilhamentos.",
+          "Implementar expiração (TTL) e auditoria de compartilhamento/exportação.",
+          "Garantir que exportação respeita visibilidade do usuário (não exportar o que não vê)."
+        ],
+        "checklist": [
+          "Usuário visualiza dados antes de compartilhar/exportar",
+          "Permissões de compartilhamento são explícitas",
+          "Links compartilhados têm opção de expiração",
+          "Usuário pode ver todos os compartilhamentos ativos",
+          "Revogação de acesso é imediata e visível",
+          "Exportação não inclui dados que o usuário não vê",
+          "Dados sensíveis têm controles adicionais (quando aplicável)"
+        ]
+      },
+      {
+        "code": "07",
+        "title": "Revisão de Segurança & Privacidade",
+        "purpose": "Validar Security-by-Design e Privacy-by-Design com evidências de revisão e mitigação de riscos.",
+        "deliverables": [
+          {
+            "name": "Documento de revisão (findings e recomendações)",
+            "type": "Documento",
+            "minimum_content": ["Escopo", "Riscos", "Findings", "Mitigações", "Pendências", "Aprovações"],
+            "how_to_execute": ["Revisar com segurança/privacidade", "Registrar decisões e donos de mitigação"]
+          },
+          {
+            "name": "Mapeamento de fluxo de dados pessoais",
+            "type": "Diagrama",
+            "minimum_content": ["Coleta", "Processamento", "Armazenamento", "Compartilhamento", "Retenção"],
+            "how_to_execute": ["Produzir DFD e marcar pontos de saída/terceiros", "Indicar base legal/finalidade quando possível"]
+          },
+          {
+            "name": "Análise de surface de ataque",
+            "type": "Documento/Lista",
+            "minimum_content": ["Entradas", "APIs", "Permissões", "Exposição em logs/URLs", "Integrações"],
+            "how_to_execute": ["Listar endpoints e ameaças", "Checar riscos de enumeração e IDOR"]
+          },
+          {
+            "name": "Validação de princípios OWASP",
+            "type": "Lista",
+            "minimum_content": ["Categorias relevantes", "Status", "Mitigação", "Testes"],
+            "how_to_execute": ["Selecionar OWASP Top 10 aplicável", "Evidenciar com testes/revisão"]
+          },
+          {
+            "name": "Threat modeling do feature",
+            "type": "Documento",
+            "conditions": ["Quando classificado como alto risco"],
+            "minimum_content": ["Ameaças", "Abusos", "Mitigações", "Riscos residuais"],
+            "how_to_execute": ["Aplicar STRIDE/LINDDUN", "Criar backlog de mitigação e validar"]
+          },
+          {
+            "name": "Data flow diagram com classificação de dados",
+            "type": "Diagrama",
+            "conditions": ["Quando houver dados sensíveis"],
+            "minimum_content": ["Fluxos", "Classificação", "Controles por etapa"],
+            "how_to_execute": ["Marcar dados por categoria", "Definir controles (cripto, masking, acesso)"]
+          }
+        ],
+        "engineering_actions": [
+          "Executar revisão de permissões (menor privilégio) e validar RBAC com testes.",
+          "Revisar URLs/logs/cache para evitar vazamento de dados pessoais.",
+          "Criar backlog de mitigação e garantir fechamento antes do release (ou aceitar risco formalmente)."
+        ],
+        "checklist": [
+          "Dados sensíveis estão mascarados por padrão",
+          "Mensagens de erro não revelam informações",
+          "Permissões seguem princípio do menor privilégio",
+          "Não há exposição de dados em URLs ou logs",
+          "Ações críticas têm confirmação",
+          "Consentimento está implementado onde necessário",
+          "Threat model foi revisado e mitigado (quando aplicável)",
+          "RBAC está consistente e testável (quando houver permission management)",
+          "Exposição pública foi intencionalmente aprovada (quando houver acesso público)"
+        ]
+      },
+      {
+        "code": "08",
+        "title": "Legal & Regulatory Overlay (LGPD/GDPR)",
+        "purpose": "Garantir evidências regulatórias (LGPD/GDPR) e PIMS quando houver tratamento de dados pessoais.",
+        "deliverables": [
+          {
+            "name": "Mapeamento de bases legais por processamento",
+            "type": "Tabela/Documento",
+            "minimum_content": ["Operação", "Dados", "Finalidade", "Base legal", "Retenção", "Compartilhamentos"],
+            "how_to_execute": ["Mapear cada processamento", "Revisar com DPO/jurídico quando aplicável"]
+          },
+          {
+            "name": "Documentação de finalidades específicas",
+            "type": "Documento",
+            "minimum_content": ["Finalidade", "Necessidade", "Minimização", "Transparência"],
+            "how_to_execute": ["Garantir que finalidades batem com o produto", "Evitar finalidades genéricas"]
+          },
+          {
+            "name": "ROPA (Registro de atividades de tratamento)",
+            "type": "Documento",
+            "minimum_content": ["Controlador/operador", "Dados", "Finalidades", "Compartilhamentos", "Transferências", "Retenção"],
+            "how_to_execute": ["Atualizar ROPA com cada feature que muda tratamento de dados", "Manter versionamento"]
+          },
+          {
+            "name": "Fluxo DSAR (exercício de direitos do titular)",
+            "type": "Fluxograma/Procedimento",
+            "minimum_content": ["Acesso", "Retificação", "Portabilidade", "Exclusão", "Prazos", "Autenticação"],
+            "how_to_execute": ["Definir endpoints/processo", "Garantir verificação de identidade e trilha de auditoria"]
+          },
+          {
+            "name": "Política de retenção e eliminação de dados",
+            "type": "Documento/Tabela",
+            "minimum_content": ["Categoria de dado", "Retenção", "Base legal", "Eliminação/anonimização", "Backups"],
+            "how_to_execute": ["Definir prazos por categoria", "Implementar jobs de expurgo e evidenciar execução"]
+          },
+          {
+            "name": "Transferências internacionais (quando aplicável)",
+            "type": "Documento",
+            "conditions": ["Quando houver processamento fora do país/fornecedores internacionais"],
+            "minimum_content": ["País", "Fornecedor", "Salvaguardas", "Contrato/DPA", "Risco"],
+            "how_to_execute": ["Listar fornecedores e regiões", "Registrar salvaguardas e DPAs"]
+          },
+          {
+            "name": "DPIA (Avaliação de impacto)",
+            "type": "Documento",
+            "conditions": ["Quando houver alto risco para titulares"],
+            "minimum_content": ["Descrição", "Necessidade", "Riscos", "Mitigações", "Risco residual"],
+            "how_to_execute": ["Executar DPIA com segurança/privacidade", "Registrar aprovações e mitigação"]
+          }
+        ],
+        "engineering_actions": [
+          "Implementar DSAR (exportar, retificar, excluir) com autenticação forte e auditoria.",
+          "Implementar retenção/expurgo (incluindo backups quando aplicável) e registrar evidências.",
+          "Garantir minimização: coletar/armazenar apenas o necessário e documentar finalidades."
+        ],
+        "checklist": [
+          "Base legal está identificada para cada processamento",
+          "Finalidades são específicas e documentadas",
+          "ROPA está completo e atualizado",
+          "Mecanismos de DSAR estão implementados",
+          "Política de retenção está definida",
+          "Transferências internacionais têm salvaguardas adequadas (quando aplicável)",
+          "DPIA foi realizada se alto risco",
+          "Direitos do titular (acesso, retificação, portabilidade, exclusão) são exercíveis"
+        ]
+      }
+    ]
+  }
+}
