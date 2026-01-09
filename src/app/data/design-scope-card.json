@@ -1,0 +1,678 @@
+{
+  "version": "1.0",
+  "id": "design_scope_card",
+  "title": "Design Scope Card",
+  "audience": "Profissionais responsáveis por criação e verificação de software SaaS",
+  "description": "Questionário base para classificar risco, disparar alertas e apoiar o cálculo de sessões aplicáveis.",
+  "schema": {
+    "required_fields": ["deliveryType", "dataInvolved", "accessModel", "userCapability"],
+    "fields": {
+      "deliveryType": { "type": "enum", "default": "" },
+      "dataInvolved": { "type": "enum", "default": "" },
+      "accessModel": { "type": "enum", "default": "" },
+      "userCapability": { "type": "enum", "default": "" },
+      "hasCreateAction": { "type": "boolean", "default": false },
+      "hasEditAction": { "type": "boolean", "default": false },
+      "hasDeleteAction": { "type": "boolean", "default": false },
+      "hasApprovalAction": { "type": "boolean", "default": false },
+      "hasExportAction": { "type": "boolean", "default": false },
+      "hasShareAction": { "type": "boolean", "default": false },
+      "hasIrreversibleAction": { "type": "boolean", "default": false },
+      "hasNoSharing": { "type": "boolean", "default": false },
+      "hasInternalIntegrations": { "type": "boolean", "default": false },
+      "hasExternalIntegrations": { "type": "boolean", "default": false },
+      "hasInternationalTransfer": { "type": "boolean", "default": false },
+      "hasWebhooks": { "type": "boolean", "default": false },
+      "hasAuthenticationReq": { "type": "boolean", "default": false },
+      "hasAuthorizationReq": { "type": "boolean", "default": false },
+      "hasEncryptionInTransit": { "type": "boolean", "default": false },
+      "hasEncryptionAtRest": { "type": "boolean", "default": false },
+      "hasAuditLogs": { "type": "boolean", "default": false },
+      "hasUsageMonitoring": { "type": "boolean", "default": false },
+      "hasNoImpact": { "type": "boolean", "default": false },
+      "hasChangedBehavior": { "type": "boolean", "default": false },
+      "hasNewDataPurpose": { "type": "boolean", "default": false },
+      "hasChangedDataCollection": { "type": "boolean", "default": false },
+      "hasChangedIntegrations": { "type": "boolean", "default": false },
+      "hasAffectedExistingUsers": { "type": "boolean", "default": false },
+      "hasFinancial": { "type": "boolean", "default": false },
+      "hasPersistentData": { "type": "boolean", "default": false },
+      "complianceISO9001": { "type": "boolean", "default": true },
+      "complianceISO27001": { "type": "boolean", "default": true },
+      "complianceISO27701": { "type": "boolean", "default": true }
+    }
+  },
+  "enums": {
+    "deliveryType": {
+      "options": [
+        {
+          "value": "new-product",
+          "label": "Novo produto / novo módulo",
+          "description": "Produto ou módulo completamente novo."
+        },
+        {
+          "value": "third-party-integration",
+          "label": "Integração com terceiros",
+          "description": "Integração com API ou serviço externo."
+        },
+        {
+          "value": "functional-evolution",
+          "label": "Evolução funcional",
+          "description": "Nova funcionalidade ou melhoria em módulo existente."
+        },
+        {
+          "value": "visual-ux-adjustment",
+          "label": "Ajuste visual / UX",
+          "description": "Melhoria de interface ou experiência do usuário."
+        },
+        {
+          "value": "technical-bugfix",
+          "label": "Correção técnica / bugfix",
+          "description": "Correção de bug ou problema técnico."
+        },
+        {
+          "value": "technical-refactoring",
+          "label": "Refatoração técnica",
+          "description": "Melhoria de código sem mudança de funcionalidade."
+        },
+        {
+          "value": "discontinuation",
+          "label": "Descontinuação / remoção",
+          "description": "Remoção de funcionalidade ou produto."
+        }
+      ]
+    },
+    "dataInvolved": {
+      "options": [
+        { "value": "none", "label": "Nenhum dado" },
+        {
+          "value": "non-personal",
+          "label": "Dados não pessoais",
+          "description": "Dados agregados, estatísticas, métricas sem identificação."
+        },
+        {
+          "value": "personal-common",
+          "label": "Dados pessoais comuns",
+          "description": "Nome, e-mail, telefone, endereço, etc."
+        },
+        {
+          "value": "personal-sensitive",
+          "label": "Dados pessoais sensíveis",
+          "description": "Saúde, biometria, origem racial, religião, etc."
+        },
+        {
+          "value": "financial",
+          "label": "Dados financeiros",
+          "description": "Cartão de crédito, conta bancária, transações, etc."
+        },
+        {
+          "value": "children",
+          "label": "Dados de crianças/adolescentes",
+          "description": "Dados de menores de 18 anos."
+        }
+      ]
+    },
+    "accessModel": {
+      "options": [
+        {
+          "value": "public",
+          "label": "Público",
+          "description": "Acesso sem autenticação (disponível para qualquer pessoa)."
+        },
+        {
+          "value": "authenticated",
+          "label": "Autenticado",
+          "description": "Requer login; todos usuários têm o mesmo acesso."
+        },
+        {
+          "value": "authenticated-permissions",
+          "label": "Autenticado com níveis de permissão",
+          "description": "Roles, grupos, permissões granulares."
+        },
+        {
+          "value": "administrative",
+          "label": "Acesso administrativo",
+          "description": "Apenas administradores/superusuários."
+        },
+        {
+          "value": "third-party",
+          "label": "Acesso de terceiros",
+          "description": "Parceiros, fornecedores, sistemas externos."
+        },
+        {
+          "value": "api-automation",
+          "label": "Acesso via API / automação",
+          "description": "Integrações máquina-a-máquina, webhooks."
+        }
+      ]
+    },
+    "userCapability": {
+      "options": [
+        {
+          "value": "end-user",
+          "label": "Usuário final comum",
+          "description": "Cliente/usuário sem conhecimento técnico."
+        },
+        {
+          "value": "advanced-user",
+          "label": "Usuário avançado",
+          "description": "Power users, analistas, gestores."
+        },
+        {
+          "value": "internal-operator",
+          "label": "Operador interno",
+          "description": "Equipe de suporte, atendimento, operações."
+        },
+        {
+          "value": "administrator",
+          "label": "Administrador",
+          "description": "Gestão completa do sistema, configurações críticas."
+        },
+        {
+          "value": "automated-system",
+          "label": "Sistema automatizado / serviço",
+          "description": "APIs, integrações, processos automáticos."
+        }
+      ]
+    }
+  },
+  "ui": {
+    "sections": [
+      {
+        "id": "delivery_type",
+        "title": "Tipo de Entrega",
+        "description": "Escolha a opção que melhor descreve o trabalho a ser realizado.",
+        "type": "enum",
+        "field": "deliveryType",
+        "options_ref": "deliveryType"
+      },
+      {
+        "id": "data_involved",
+        "title": "Dados Envolvidos",
+        "description": "Selecione o tipo de dado que será processado no trabalho.",
+        "type": "enum",
+        "field": "dataInvolved",
+        "options_ref": "dataInvolved"
+      },
+      {
+        "id": "access_model",
+        "title": "Modelo de Acesso",
+        "description": "Como os usuários/sistemas acessarão esta funcionalidade.",
+        "type": "enum",
+        "field": "accessModel",
+        "options_ref": "accessModel"
+      },
+      {
+        "id": "user_capability",
+        "title": "Capacidade do Usuário",
+        "description": "Perfil técnico do usuário que utilizará esta funcionalidade.",
+        "type": "enum",
+        "field": "userCapability",
+        "options_ref": "userCapability"
+      },
+      {
+        "id": "sensitive_actions",
+        "title": "Ações Sensíveis",
+        "description": "Selecione as ações que o usuário poderá realizar (múltipla escolha).",
+        "type": "boolean_group",
+        "items": [
+          {
+            "field": "hasCreateAction",
+            "label": "Criação de dados",
+            "description": "Criar novos registros, documentos, entidades."
+          },
+          {
+            "field": "hasEditAction",
+            "label": "Alteração de dados",
+            "description": "Editar, modificar, atualizar dados existentes."
+          },
+          {
+            "field": "hasDeleteAction",
+            "label": "Exclusão de dados",
+            "description": "Deletar, remover registros permanentemente."
+          },
+          {
+            "field": "hasApprovalAction",
+            "label": "Aprovação / reprovação",
+            "description": "Workflows de aprovação, validações."
+          },
+          {
+            "field": "hasExportAction",
+            "label": "Exportação",
+            "description": "Download, exportar para CSV/PDF/Excel, backup."
+          },
+          {
+            "field": "hasShareAction",
+            "label": "Compartilhamento",
+            "description": "Compartilhar via link, e-mail, convites."
+          },
+          {
+            "field": "hasIrreversibleAction",
+            "label": "Ações irreversíveis",
+            "description": "Operações sem rollback, exclusões permanentes."
+          }
+        ]
+      },
+      {
+        "id": "sharing_integrations",
+        "title": "Compartilhamento & Integrações",
+        "description": "Selecione as características de compartilhamento e integração (múltipla escolha).",
+        "type": "boolean_group",
+        "items": [
+          {
+            "field": "hasNoSharing",
+            "label": "Nenhum compartilhamento",
+            "description": "Sistema isolado, sem integrações."
+          },
+          {
+            "field": "hasInternalIntegrations",
+            "label": "Integrações internas",
+            "description": "Comunicação entre sistemas da mesma organização."
+          },
+          {
+            "field": "hasExternalIntegrations",
+            "label": "Integrações externas",
+            "description": "APIs de terceiros, serviços externos."
+          },
+          {
+            "field": "hasInternationalTransfer",
+            "label": "Transferência internacional de dados",
+            "description": "Envio de dados para outros países."
+          },
+          {
+            "field": "hasWebhooks",
+            "label": "Webhooks / sincronização automática",
+            "description": "Eventos em tempo real, notificações push."
+          }
+        ]
+      },
+      {
+        "id": "security_reliability",
+        "title": "Segurança & Confiabilidade",
+        "description": "Selecione os requisitos de segurança e confiabilidade (múltipla escolha).",
+        "type": "boolean_group",
+        "items": [
+          {
+            "field": "hasAuthenticationReq",
+            "label": "Requisitos de autenticação",
+            "description": "Login, senha, MFA, SSO."
+          },
+          {
+            "field": "hasAuthorizationReq",
+            "label": "Requisitos de autorização",
+            "description": "Permissões, papéis (RBAC), níveis de acesso."
+          },
+          {
+            "field": "hasEncryptionInTransit",
+            "label": "Criptografia em trânsito",
+            "description": "HTTPS/TLS, comunicação segura."
+          },
+          {
+            "field": "hasEncryptionAtRest",
+            "label": "Criptografia em repouso",
+            "description": "Dados criptografados no banco de dados."
+          },
+          {
+            "field": "hasAuditLogs",
+            "label": "Logs de auditoria necessários",
+            "description": "Rastreabilidade de ações, conformidade LGPD/GDPR."
+          },
+          {
+            "field": "hasUsageMonitoring",
+            "label": "Monitoramento de uso",
+            "description": "Analytics, métricas, detecção de anomalias."
+          }
+        ]
+      },
+      {
+        "id": "change_impact",
+        "title": "Impacto de Mudança",
+        "description": "Selecione os tipos de impacto que esta mudança causa (múltipla escolha).",
+        "type": "boolean_group",
+        "items": [
+          {
+            "field": "hasNoImpact",
+            "label": "Mudança sem impacto funcional",
+            "description": "Apenas visual, performance, refatoração interna."
+          },
+          {
+            "field": "hasChangedBehavior",
+            "label": "Mudança que altera comportamento existente",
+            "description": "Fluxos, validações, regras de negócio."
+          },
+          {
+            "field": "hasNewDataPurpose",
+            "label": "Nova finalidade de uso de dados",
+            "description": "Usar dados existentes para novos propósitos."
+          },
+          {
+            "field": "hasChangedDataCollection",
+            "label": "Mudança em dados coletados",
+            "description": "Adicionar/remover campos, mudar obrigatoriedade."
+          },
+          {
+            "field": "hasChangedIntegrations",
+            "label": "Mudança em integrações",
+            "description": "Alterar APIs, adicionar/remover serviços terceiros."
+          },
+          {
+            "field": "hasAffectedExistingUsers",
+            "label": "Mudança que afeta usuários existentes",
+            "description": "Impacto em base instalada; requer comunicação."
+          }
+        ]
+      },
+      {
+        "id": "other",
+        "title": "Outras Características",
+        "type": "boolean_group",
+        "items": [
+          {
+            "field": "hasFinancial",
+            "label": "Transações financeiras",
+            "description": "Pagamentos, cobranças, transferências."
+          }
+        ]
+      },
+      {
+        "id": "compliance_standards",
+        "title": "Normas de Conformidade",
+        "description": "Selecione as normas que devem ser consideradas (determina itens obrigatórios/opcionais nas sessões).",
+        "type": "boolean_group",
+        "items": [
+          {
+            "field": "complianceISO9001",
+            "label": "ISO 9001",
+            "description": "Gestão da Qualidade"
+          },
+          {
+            "field": "complianceISO27001",
+            "label": "ISO/IEC 27001",
+            "description": "Segurança da Informação"
+          },
+          {
+            "field": "complianceISO27701",
+            "label": "ISO/IEC 27701",
+            "description": "Gestão de Privacidade"
+          }
+        ]
+      }
+    ]
+  },
+  "derived_signals": {
+    "hasPersonalData": { "field": "dataInvolved", "notIn": ["none", "non-personal", ""] },
+    "hasSensitiveData": { "field": "dataInvolved", "in": ["personal-sensitive", "financial", "children"] },
+    "hasCriticalActions": {
+      "any": [
+        { "field": "hasDeleteAction", "equals": true },
+        { "field": "hasIrreversibleAction", "equals": true },
+        { "field": "hasApprovalAction", "equals": true }
+      ]
+    },
+    "hasSharing": {
+      "any": [
+        { "field": "hasShareAction", "equals": true },
+        { "field": "hasExportAction", "equals": true },
+        { "field": "hasExternalIntegrations", "equals": true },
+        { "field": "hasInternalIntegrations", "equals": true }
+      ]
+    }
+  },
+  "alerts": [
+    {
+      "id": "high_risk_data",
+      "severity": "high",
+      "title": "Dados de alto risco identificados",
+      "when": { "field": "dataInvolved", "in": ["personal-sensitive", "financial", "children"] },
+      "message_by_value": {
+        "personal-sensitive": "Dados sensíveis exigem controles rigorosos de segurança, privacidade e consentimento explícito (LGPD/GDPR).",
+        "financial": "Dados financeiros requerem conformidade PCI DSS, criptografia forte, segregação de funções e controles de auditoria.",
+        "children": "Dados de menores de 18 anos exigem verificação de idade e consentimento parental (LGPD: <18 anos; GDPR: <16 anos)."
+      },
+      "references": ["LGPD", "GDPR", "PCI-DSS"]
+    },
+    {
+      "id": "high_risk_access_model",
+      "severity": "medium",
+      "title": "Modelo de acesso de risco elevado",
+      "when": { "field": "accessModel", "in": ["public", "third-party", "api-automation"] },
+      "message_by_value": {
+        "public": "Acesso público aumenta significativamente a superfície de ataque e riscos de segurança.",
+        "third-party": "Acesso de terceiros requer controles rigorosos de autenticação, autorização e auditoria.",
+        "api-automation": "APIs sem supervisão humana requerem validação, rate limiting, autenticação forte e logging completo."
+      },
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "high_privilege_capability",
+      "severity": "medium",
+      "title": "Capacidade de alto privilégio",
+      "when": { "field": "userCapability", "in": ["administrator", "automated-system"] },
+      "message_by_value": {
+        "administrator": "Administradores têm acesso amplo: requer auditoria completa, MFA obrigatório e validações adicionais.",
+        "automated-system": "Sistemas automatizados operam sem supervisão humana: requer validação rigorosa, rate limiting e monitoramento contínuo."
+      },
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "high_impact_actions",
+      "severity": "high",
+      "title": "Ações de alto impacto detectadas",
+      "when": {
+        "any": [
+          { "field": "hasDeleteAction", "equals": true },
+          { "field": "hasIrreversibleAction", "equals": true }
+        ]
+      },
+      "message": "Exclusões e/ou ações irreversíveis exigem confirmação explícita (idealmente dupla), auditoria completa, avisos claros e estratégia de recuperação/rollback quando possível.",
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "international_transfer",
+      "severity": "high",
+      "title": "Transferência internacional detectada",
+      "when": { "field": "hasInternationalTransfer", "equals": true },
+      "message": "Transferência internacional requer mecanismos adequados de proteção (ex.: cláusulas contratuais padrão, adequação, certificações) e transparência ao usuário sobre países de destino e salvaguardas.",
+      "references": ["LGPD Art. 33", "GDPR Cap. V"]
+    },
+    {
+      "id": "external_integrations",
+      "severity": "medium",
+      "title": "Integrações externas detectadas",
+      "when": { "field": "hasExternalIntegrations", "equals": true },
+      "message": "Considere autenticação segura (OAuth 2.0/API keys), rate limiting, monitoramento de falhas, timeouts configuráveis e degradação controlada quando o serviço externo estiver indisponível.",
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "webhooks",
+      "severity": "medium",
+      "title": "Webhooks / sincronização automática",
+      "when": { "field": "hasWebhooks", "equals": true },
+      "message": "Requer validação de assinatura (HMAC), retry com backoff, idempotência, logging de eventos e UI para gerenciamento de URLs de callback.",
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "audit_logs",
+      "severity": "info",
+      "title": "Logs de auditoria ativados",
+      "when": { "field": "hasAuditLogs", "equals": true },
+      "message": "Logs devem registrar quem, quando, o quê e onde para cada ação sensível. Defina retenção, imutabilidade e capacidade de consulta (filtros por usuário/período) e exportação para análise.",
+      "references": ["LGPD Art. 48", "GDPR Art. 30"]
+    },
+    {
+      "id": "authn_authz",
+      "severity": "info",
+      "title": "Autenticação/Autorização detectada",
+      "when": {
+        "any": [
+          { "field": "hasAuthenticationReq", "equals": true },
+          { "field": "hasAuthorizationReq", "equals": true }
+        ]
+      },
+      "message": "Inclua fluxos de login/logout, recuperação, MFA para alto privilégio, gestão de permissões (RBAC) e mensagens de erro seguras (sem vazamento de informação).",
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "encryption",
+      "severity": "info",
+      "title": "Criptografia requerida",
+      "when": {
+        "any": [
+          { "field": "hasEncryptionInTransit", "equals": true },
+          { "field": "hasEncryptionAtRest", "equals": true }
+        ]
+      },
+      "message": "Garanta TLS (mínimo 1.2) para trânsito e criptografia forte (ex.: AES-256) em repouso quando aplicável. Planeje gestão de chaves e evidências de configuração.",
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "usage_monitoring",
+      "severity": "info",
+      "title": "Monitoramento de uso",
+      "when": { "field": "hasUsageMonitoring", "equals": true },
+      "message": "Inclua dashboards, detecção de anomalias e transparência sobre telemetria/analytics (finalidade, retenção, opt-out quando aplicável).",
+      "references": ["LGPD Art. 9", "GDPR Art. 13"]
+    },
+    {
+      "id": "new_data_purpose",
+      "severity": "critical",
+      "title": "Nova finalidade de dados (crítico)",
+      "when": { "field": "hasNewDataPurpose", "equals": true },
+      "message": "Usar dados existentes para nova finalidade requer novo consentimento específico e informado. Inclua fluxo de reconsentimento e opção de recusa sem prejuízo ao serviço original. Não implementar sem validação jurídica.",
+      "references": ["LGPD Art. 8", "GDPR Art. 6"]
+    },
+    {
+      "id": "changed_data_collection",
+      "severity": "medium",
+      "title": "Mudança em dados coletados",
+      "when": { "field": "hasChangedDataCollection", "equals": true },
+      "message": "Mudanças na coleta exigem atualização de política de privacidade e transparência ao usuário. Se adicionar dados sensíveis ou mudar obrigatoriedade, pode exigir novo consentimento.",
+      "references": ["LGPD Art. 9", "GDPR Art. 13-14"]
+    },
+    {
+      "id": "affected_existing_users",
+      "severity": "medium",
+      "title": "Impacto em usuários existentes",
+      "when": { "field": "hasAffectedExistingUsers", "equals": true },
+      "message": "Planeje comunicação (e-mail, in-app, changelog), período de transição, suporte/FAQ e estratégia de rollout/rollback (ex.: feature flags).",
+      "references": ["ISO 9001"]
+    },
+    {
+      "id": "changed_behavior",
+      "severity": "medium",
+      "title": "Mudança de comportamento",
+      "when": { "field": "hasChangedBehavior", "equals": true },
+      "message": "Requer testes de regressão, validação com usuários-chave, documentação de breaking changes e rollout gradual.",
+      "references": ["ISO 9001"]
+    },
+    {
+      "id": "changed_integrations",
+      "severity": "medium",
+      "title": "Mudança em integrações",
+      "when": { "field": "hasChangedIntegrations", "equals": true },
+      "message": "Mudanças em integrações requerem versionamento, compatibilidade retroativa quando possível, testes end-to-end e estados de degradação controlada.",
+      "references": ["ISO/IEC 27001"]
+    },
+    {
+      "id": "financial_transactions",
+      "severity": "high",
+      "title": "Transações financeiras",
+      "when": { "field": "hasFinancial", "equals": true },
+      "message": "Transações financeiras elevam o risco. Considere PCI DSS (quando aplicável), trilha de auditoria, prevenção a fraudes e confirmações em duas etapas para ações críticas.",
+      "references": ["PCI-DSS", "ISO/IEC 27001"]
+    }
+  ],
+  "risk_model": {
+    "output": {
+      "riskScore_ref": "riskAssessment.riskScore",
+      "riskLabel_ref": "riskAssessment.riskLabel"
+    },
+    "base_score_by_deliveryType": {
+      "new-product": 10,
+      "functional-evolution": 5,
+      "visual-ux-adjustment": 0,
+      "technical-bugfix": 0,
+      "technical-refactoring": 0,
+      "third-party-integration": 5,
+      "discontinuation": 5
+    },
+    "score_rules": [
+      { "when": { "field": "dataInvolved", "equals": "personal-common" }, "add": 15 },
+      { "when": { "field": "dataInvolved", "equals": "personal-sensitive" }, "add": 40 },
+      { "when": { "field": "dataInvolved", "equals": "financial" }, "add": 35 },
+      { "when": { "field": "dataInvolved", "equals": "children" }, "add": 45 },
+      { "when": { "field": "accessModel", "equals": "public" }, "add": 20 },
+      { "when": { "field": "accessModel", "equals": "third-party" }, "add": 15 },
+      { "when": { "field": "accessModel", "equals": "api-automation" }, "add": 18 },
+      { "when": { "field": "hasCreateAction", "equals": true }, "add": 5 },
+      { "when": { "field": "hasEditAction", "equals": true }, "add": 8 },
+      { "when": { "field": "hasDeleteAction", "equals": true }, "add": 12 },
+      { "when": { "field": "hasApprovalAction", "equals": true }, "add": 15 },
+      { "when": { "field": "hasExportAction", "equals": true }, "add": 10 },
+      { "when": { "field": "hasShareAction", "equals": true }, "add": 15 },
+      { "when": { "field": "hasIrreversibleAction", "equals": true }, "add": 20 },
+      { "when": { "field": "hasFinancial", "equals": true }, "add": 20 },
+      { "when": { "field": "hasInternalIntegrations", "equals": true }, "add": 3 },
+      { "when": { "field": "hasExternalIntegrations", "equals": true }, "add": 10 },
+      { "when": { "field": "hasInternationalTransfer", "equals": true }, "add": 15 },
+      { "when": { "field": "hasWebhooks", "equals": true }, "add": 8 },
+      { "when": { "field": "hasAuthorizationReq", "equals": true }, "add": 5 },
+      { "when": { "field": "hasEncryptionAtRest", "equals": true }, "add": 3 },
+      { "when": { "field": "hasAuditLogs", "equals": true }, "add": 8 },
+      { "when": { "field": "hasUsageMonitoring", "equals": true }, "add": 5 },
+      { "when": { "field": "hasChangedBehavior", "equals": true }, "add": 8 },
+      { "when": { "field": "hasNewDataPurpose", "equals": true }, "add": 15 },
+      { "when": { "field": "hasChangedDataCollection", "equals": true }, "add": 12 },
+      { "when": { "field": "hasChangedIntegrations", "equals": true }, "add": 10 },
+      { "when": { "field": "hasAffectedExistingUsers", "equals": true }, "add": 10 }
+    ],
+    "label_overrides": [
+      {
+        "label": "high",
+        "when": {
+          "any": [
+            { "field": "dataInvolved", "in": ["personal-sensitive", "financial", "children"] },
+            { "field": "hasIrreversibleAction", "equals": true },
+            {
+              "all": [
+                { "field": "accessModel", "equals": "public" },
+                { "field": "dataInvolved", "notEquals": "none" }
+              ]
+            },
+            {
+              "all": [
+                { "field": "hasShareAction", "equals": true },
+                {
+                  "field": "dataInvolved",
+                  "in": ["personal-common", "personal-sensitive", "financial", "children"]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "label_thresholds": [
+      { "label": "high", "minScore": 40 },
+      { "label": "medium", "minScore": 20 },
+      { "label": "low", "minScore": 0 }
+    ]
+  },
+  "session_mapping": {
+    "sessions_config_source": "src/app/data/sessions-config.json",
+    "condition_definitions": {
+      "hasPersonalData": { "ref": "derived_signals.hasPersonalData" },
+      "hasSensitiveData": { "ref": "derived_signals.hasSensitiveData" },
+      "hasPersistentData": { "field": "hasPersistentData", "equals": true },
+      "hasCriticalActions": { "ref": "derived_signals.hasCriticalActions" },
+      "hasSharing": { "ref": "derived_signals.hasSharing" },
+      "hasAuthorizationReq": { "field": "hasAuthorizationReq", "equals": true },
+      "hasAuthenticationReq": { "field": "hasAuthenticationReq", "equals": true },
+      "hasAffectedExistingUsers": { "field": "hasAffectedExistingUsers", "equals": true },
+      "hasChangedBehavior": { "field": "hasChangedBehavior", "equals": true },
+      "hasNewDataPurpose": { "field": "hasNewDataPurpose", "equals": true },
+      "accessModel:authenticated-permissions": { "field": "accessModel", "equals": "authenticated-permissions" },
+      "isHighRisk": { "ref": "riskAssessment.riskLabel", "equals": "high" }
+    }
+  }
+}
