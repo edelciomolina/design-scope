@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "source": "src\\app\\utils\\sessionDefinitions.ts",
+  "source": "src/app/utils/sessionDefinitions.ts",
   "audience": "Profissionais responsáveis por criação e verificação de software SaaS",
   "references": {
     "ISO9001": {
