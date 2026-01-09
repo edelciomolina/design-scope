@@ -4,6 +4,9 @@ import { CheckCircle2, Circle, Info, Loader2, ShieldAlert } from 'lucide-react';
 import { DesignScopeData, RiskAssessment, SessionStatus } from '../App';
 import { calculateApplicableSessions, SessionDefinition } from '../services/sessionService';
 import { Badge } from '../components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../components/ui/accordion';
+import { Checkbox } from '../components/ui/checkbox';
 
 interface Props {
   scopeData: DesignScopeData;
@@ -67,10 +70,25 @@ function getComplianceBadges(
   return badges;
 }
 
+interface IsoClauseItem {
+  sessionId: string;
+  sessionTitle: string;
+  workItemText: string;
+  documentTypes?: string[];
+}
+
+interface IsoClauseGroup {
+  code: string;
+  requiredItems: IsoClauseItem[];
+  optionalItems: IsoClauseItem[];
+}
+
 export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessions, setSessions }: Props) {
   const [sessionDefinitions, setSessionDefinitions] = useState<SessionDefinition[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'sessions' | 'iso'>('sessions');
+  const [onlyRequired, setOnlyRequired] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -95,6 +113,60 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
 
   const requiredSessions = useMemo(() => sessionDefinitions.filter((s) => s.status === 'required'), [sessionDefinitions]);
   const optionalSessions = useMemo(() => sessionDefinitions.filter((s) => s.status === 'optional'), [sessionDefinitions]);
+
+  const isoGroups = useMemo(
+    () => {
+      const buildGroups = (
+        getCodes: (workItem: SessionDefinition['workItems'][number]) => string[] | undefined,
+        enabled: boolean
+      ): IsoClauseGroup[] => {
+        if (!enabled) return [];
+
+        const map = new Map<string, IsoClauseGroup>();
+
+        sessionDefinitions.forEach((session) => {
+          if (session.status === 'not-applicable') return;
+
+          session.workItems.forEach((item) => {
+            const codes = getCodes(item) || [];
+            codes.forEach((code) => {
+              if (!code) return;
+
+              let group = map.get(code);
+              if (!group) {
+                group = {
+                  code,
+                  requiredItems: [],
+                  optionalItems: [],
+                };
+                map.set(code, group);
+              }
+
+              const target = session.status === 'required' ? group.requiredItems : group.optionalItems;
+              target.push({
+                sessionId: session.id,
+                sessionTitle: session.title,
+                workItemText: item.text,
+                documentTypes: item.documentTypes,
+              });
+            });
+          });
+        });
+
+        return Array.from(map.values()).sort((a, b) =>
+          a.code.localeCompare(b.code, 'pt-BR', { numeric: true })
+        );
+      };
+
+      return {
+        iso9001: buildGroups((item) => item.iso9001, scopeData.complianceISO9001),
+        iso27001Clauses: buildGroups((item) => item.iso27001Clauses, scopeData.complianceISO27001),
+        iso27001AnnexA: buildGroups((item) => item.iso27001AnnexA, scopeData.complianceISO27001),
+        iso27701: buildGroups((item) => item.iso27701, scopeData.complianceISO27701),
+      };
+    },
+    [sessionDefinitions, scopeData]
+  );
 
   if (loading) {
     return (
@@ -166,13 +238,13 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
             <li key={`${session.id}-${itemIndex}`} className="flex items-stretch gap-3 text-sm border-b border-slate-200 last:border-b-0 py-2">
               {/* Badge left-aligned, vertically centered */}
               <div className="flex flex-col justify-center min-w-[70px] items-start pr-2">
-                {item.documentTypes?.length ? (
-                  item.documentTypes.map((doc, idx) => (
-                    <Badge key={idx} variant="secondary" className="mb-1">
-                      {doc}
-                    </Badge>
-                  ))
-                ) : null}
+                  {item.documentTypes?.length ? (
+                    item.documentTypes.map((doc, idx) => (
+                      <Badge key={idx} variant="secondary" className="mb-1 min-w-[300px] justify-center text-center">
+                        {doc}
+                      </Badge>
+                    ))
+                  ) : null}
               </div>
               <div className="flex-1 flex items-center gap-2 flex-wrap">
                 <span className="text-slate-700">{item.text}</span>
@@ -215,19 +287,463 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
         </div>
       </div>
 
-      {requiredSessions.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-slate-900">Sessões Obrigatórias ({requiredSessions.length})</h2>
-          {requiredSessions.map((session, index) => renderSession(session, index))}
+      <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as 'sessions' | 'iso')}>
+        <div className="mt-2 flex items-center justify-between gap-4">
+          <TabsList>
+            <TabsTrigger value="sessions">Visão por sessão</TabsTrigger>
+            <TabsTrigger value="iso">Visão por norma ISO</TabsTrigger>
+          </TabsList>
+          <div className="flex items-center gap-2 text-xs text-slate-700">
+            <Checkbox
+              checked={onlyRequired}
+              onCheckedChange={(checked) => setOnlyRequired(!!checked)}
+            />
+            <span>Somente se obrigatória</span>
+          </div>
         </div>
-      )}
 
-      {optionalSessions.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-slate-900">Sessões Opcionais ({optionalSessions.length})</h2>
-          {optionalSessions.map((session, index) => renderSession(session, requiredSessions.length + index))}
-        </div>
-      )}
+        <TabsContent value="sessions" className="mt-4 space-y-6">
+          {requiredSessions.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-slate-900">Sessões Obrigatórias ({requiredSessions.length})</h2>
+              {requiredSessions.map((session, index) => renderSession(session, index))}
+            </div>
+          )}
+
+          {optionalSessions.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-slate-900">Sessões Opcionais ({optionalSessions.length})</h2>
+              {optionalSessions.map((session, index) => renderSession(session, requiredSessions.length + index))}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="iso" className="mt-4 space-y-6">
+          {(() => {
+            const iso9001 = onlyRequired
+              ? isoGroups.iso9001.filter((g) => g.requiredItems.length > 0)
+              : isoGroups.iso9001;
+            const iso27001Clauses = onlyRequired
+              ? isoGroups.iso27001Clauses.filter((g) => g.requiredItems.length > 0)
+              : isoGroups.iso27001Clauses;
+            const iso27001AnnexA = onlyRequired
+              ? isoGroups.iso27001AnnexA.filter((g) => g.requiredItems.length > 0)
+              : isoGroups.iso27001AnnexA;
+            const iso27701 = onlyRequired
+              ? isoGroups.iso27701.filter((g) => g.requiredItems.length > 0)
+              : isoGroups.iso27701;
+
+            if (
+              iso9001.length === 0 &&
+              iso27001Clauses.length === 0 &&
+              iso27001AnnexA.length === 0 &&
+              iso27701.length === 0
+            ) {
+              return (
+                <div className="text-sm text-slate-600">
+                  Nenhum mapeamento de cláusulas ISO para este escopo. Ajuste o escopo, as normas de conformidade ou desmarque o filtro "Somente se obrigatória" para ver cláusulas apenas opcionais.
+                </div>
+              );
+            }
+
+            return (
+              <>
+              {iso9001.length > 0 && (
+                <section className="space-y-3">
+                  <h2 className="text-lg font-semibold text-slate-900">ISO 9001:2015 - Gestão da Qualidade</h2>
+                  {iso9001.map((group) => (
+                    <div
+                      key={`iso9001-${group.code}`}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-4"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-semibold text-slate-900">Cláusula {group.code}</span>
+                        <span className="text-xs text-slate-500">
+                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                        </span>
+                      </div>
+
+                      {group.requiredItems.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="border border-slate-200 rounded-md overflow-hidden bg-white">
+                            <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                              <span>Sessão</span>
+                              <span>Item de trabalho</span>
+                              <span>Artefatos / documentos</span>
+                            </div>
+                            <ul className="divide-y divide-slate-200">
+                              {group.requiredItems.map((item, index) => (
+                                <li
+                                  key={`iso9001-${group.code}-req-${index}`}
+                                  className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                >
+                                  <div className="flex flex-col gap-1">
+                                    <span className="font-medium">{item.sessionTitle}</span>
+                                  </div>
+                                  <div className="flex items-start text-sm text-slate-700">
+                                    {item.workItemText}
+                                  </div>
+                                  <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                    {item.documentTypes?.length
+                                      ? item.documentTypes.map((doc, idx) => (
+                                          <Badge key={idx} variant="secondary" className="text-[11px]">
+                                            {doc}
+                                          </Badge>
+                                        ))
+                                      : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+
+                      {group.optionalItems.length > 0 && (
+                        <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
+                          <AccordionItem value={`iso9001-${group.code}-opt`} className="border-b-0">
+                            <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
+                              Itens opcionais recomendados ({group.optionalItems.length})
+                            </AccordionTrigger>
+                            <AccordionContent className="pt-0">
+                              <div className="border-t border-slate-200">
+                                <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                                  <span>Sessão</span>
+                                  <span>Item de trabalho</span>
+                                  <span>Artefatos / documentos</span>
+                                </div>
+                                <ul className="divide-y divide-slate-200">
+                                  {group.optionalItems.map((item, index) => (
+                                    <li
+                                      key={`iso9001-${group.code}-opt-${index}`}
+                                      className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                    >
+                                      <div className="flex flex-col gap-1">
+                                        <span className="font-medium">{item.sessionTitle}</span>
+                                      </div>
+                                      <div className="flex items-start text-sm text-slate-700">
+                                        {item.workItemText}
+                                      </div>
+                                      <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                        {item.documentTypes?.length
+                                          ? item.documentTypes.map((doc, idx) => (
+                                              <Badge key={idx} variant="outline" className="text-[11px]">
+                                                {doc}
+                                              </Badge>
+                                            ))
+                                          : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                      </div>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      )}
+                    </div>
+                  ))}
+                </section>
+              )}
+
+              {iso27001Clauses.length > 0 && (
+                <section className="space-y-3">
+                  <h2 className="text-lg font-semibold text-slate-900">ISO/IEC 27001:2022 - Cláusulas 4-10</h2>
+                  {iso27001Clauses.map((group) => (
+                    <div
+                      key={`iso27001-clause-${group.code}`}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-4"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-semibold text-slate-900">Cláusula {group.code}</span>
+                        <span className="text-xs text-slate-500">
+                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                        </span>
+                      </div>
+
+                      {group.requiredItems.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="border border-slate-200 rounded-md overflow-hidden bg-white">
+                            <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                              <span>Sessão</span>
+                              <span>Item de trabalho</span>
+                              <span>Artefatos / documentos</span>
+                            </div>
+                            <ul className="divide-y divide-slate-200">
+                              {group.requiredItems.map((item, index) => (
+                                <li
+                                  key={`iso27001-clause-${group.code}-req-${index}`}
+                                  className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                >
+                                  <div className="flex flex-col gap-1">
+                                    <span className="font-medium">{item.sessionTitle}</span>
+                                  </div>
+                                  <div className="flex items-start text-sm text-slate-700">
+                                    {item.workItemText}
+                                  </div>
+                                  <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                    {item.documentTypes?.length
+                                      ? item.documentTypes.map((doc, idx) => (
+                                          <Badge key={idx} variant="secondary" className="text-[11px]">
+                                            {doc}
+                                          </Badge>
+                                        ))
+                                      : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+
+                      {group.optionalItems.length > 0 && (
+                        <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
+                          <AccordionItem value={`iso27001-clause-${group.code}-opt`} className="border-b-0">
+                            <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
+                              Itens opcionais recomendados ({group.optionalItems.length})
+                            </AccordionTrigger>
+                            <AccordionContent className="pt-0">
+                              <div className="border-t border-slate-200">
+                                <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                                  <span>Sessão</span>
+                                  <span>Item de trabalho</span>
+                                  <span>Artefatos / documentos</span>
+                                </div>
+                                <ul className="divide-y divide-slate-200">
+                                  {group.optionalItems.map((item, index) => (
+                                    <li
+                                      key={`iso27001-clause-${group.code}-opt-${index}`}
+                                      className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                    >
+                                      <div className="flex flex-col gap-1">
+                                        <span className="font-medium">{item.sessionTitle}</span>
+                                      </div>
+                                      <div className="flex items-start text-sm text-slate-700">
+                                        {item.workItemText}
+                                      </div>
+                                      <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                        {item.documentTypes?.length
+                                          ? item.documentTypes.map((doc, idx) => (
+                                              <Badge key={idx} variant="outline" className="text-[11px]">
+                                                {doc}
+                                              </Badge>
+                                            ))
+                                          : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                      </div>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      )}
+                    </div>
+                  ))}
+                </section>
+              )}
+
+              {iso27001AnnexA.length > 0 && (
+                <section className="space-y-3">
+                  <h2 className="text-lg font-semibold text-slate-900">ISO/IEC 27001:2022 - Anexo A (controles)</h2>
+                  {iso27001AnnexA.map((group) => (
+                    <div
+                      key={`iso27001-annex-${group.code}`}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-4"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-semibold text-slate-900">Controle {group.code}</span>
+                        <span className="text-xs text-slate-500">
+                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                        </span>
+                      </div>
+
+                      {group.requiredItems.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="border border-slate-200 rounded-md overflow-hidden bg-white">
+                            <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                              <span>Sessão</span>
+                              <span>Item de trabalho</span>
+                              <span>Artefatos / documentos</span>
+                            </div>
+                            <ul className="divide-y divide-slate-200">
+                              {group.requiredItems.map((item, index) => (
+                                <li
+                                  key={`iso27001-annex-${group.code}-req-${index}`}
+                                  className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                >
+                                  <div className="flex flex-col gap-1">
+                                    <span className="font-medium">{item.sessionTitle}</span>
+                                  </div>
+                                  <div className="flex items-start text-sm text-slate-700">
+                                    {item.workItemText}
+                                  </div>
+                                  <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                    {item.documentTypes?.length
+                                      ? item.documentTypes.map((doc, idx) => (
+                                          <Badge key={idx} variant="secondary" className="text-[11px]">
+                                            {doc}
+                                          </Badge>
+                                        ))
+                                      : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+
+                      {group.optionalItems.length > 0 && (
+                        <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
+                          <AccordionItem value={`iso27001-annex-${group.code}-opt`} className="border-b-0">
+                            <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
+                              Itens opcionais recomendados ({group.optionalItems.length})
+                            </AccordionTrigger>
+                            <AccordionContent className="pt-0">
+                              <div className="border-t border-slate-200">
+                                <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                                  <span>Sessão</span>
+                                  <span>Item de trabalho</span>
+                                  <span>Artefatos / documentos</span>
+                                </div>
+                                <ul className="divide-y divide-slate-200">
+                                  {group.optionalItems.map((item, index) => (
+                                    <li
+                                      key={`iso27001-annex-${group.code}-opt-${index}`}
+                                      className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                    >
+                                      <div className="flex flex-col gap-1">
+                                        <span className="font-medium">{item.sessionTitle}</span>
+                                      </div>
+                                      <div className="flex items-start text-sm text-slate-700">
+                                        {item.workItemText}
+                                      </div>
+                                      <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                        {item.documentTypes?.length
+                                          ? item.documentTypes.map((doc, idx) => (
+                                              <Badge key={idx} variant="outline" className="text-[11px]">
+                                                {doc}
+                                              </Badge>
+                                            ))
+                                          : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                      </div>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      )}
+                    </div>
+                  ))}
+                </section>
+              )}
+
+              {iso27701.length > 0 && (
+                <section className="space-y-3">
+                  <h2 className="text-lg font-semibold text-slate-900">ISO/IEC 27701:2019 - Gestão de Privacidade</h2>
+                  {iso27701.map((group) => (
+                    <div
+                      key={`iso27701-${group.code}`}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-4"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-semibold text-slate-900">Cláusula {group.code}</span>
+                        <span className="text-xs text-slate-500">
+                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                        </span>
+                      </div>
+
+                      {group.requiredItems.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="border border-slate-200 rounded-md overflow-hidden bg-white">
+                            <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                              <span>Sessão</span>
+                              <span>Item de trabalho</span>
+                              <span>Artefatos / documentos</span>
+                            </div>
+                            <ul className="divide-y divide-slate-200">
+                              {group.requiredItems.map((item, index) => (
+                                <li
+                                  key={`iso27701-${group.code}-req-${index}`}
+                                  className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                >
+                                  <div className="flex flex-col gap-1">
+                                    <span className="font-medium">{item.sessionTitle}</span>
+                                  </div>
+                                  <div className="flex items-start text-sm text-slate-700">
+                                    {item.workItemText}
+                                  </div>
+                                  <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                    {item.documentTypes?.length
+                                      ? item.documentTypes.map((doc, idx) => (
+                                          <Badge key={idx} variant="secondary" className="text-[11px]">
+                                            {doc}
+                                          </Badge>
+                                        ))
+                                      : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+
+                      {group.optionalItems.length > 0 && (
+                        <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
+                          <AccordionItem value={`iso27701-${group.code}-opt`} className="border-b-0">
+                            <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
+                              Itens opcionais recomendados ({group.optionalItems.length})
+                            </AccordionTrigger>
+                            <AccordionContent className="pt-0">
+                              <div className="border-t border-slate-200">
+                                <div className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 bg-slate-100">
+                                  <span>Sessão</span>
+                                  <span>Item de trabalho</span>
+                                  <span>Artefatos / documentos</span>
+                                </div>
+                                <ul className="divide-y divide-slate-200">
+                                  {group.optionalItems.map((item, index) => (
+                                    <li
+                                      key={`iso27701-${group.code}-opt-${index}`}
+                                      className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
+                                    >
+                                      <div className="flex flex-col gap-1">
+                                        <span className="font-medium">{item.sessionTitle}</span>
+                                      </div>
+                                      <div className="flex items-start text-sm text-slate-700">
+                                        {item.workItemText}
+                                      </div>
+                                      <div className="flex flex-wrap items-start gap-1 text-xs text-slate-600">
+                                        {item.documentTypes?.length
+                                          ? item.documentTypes.map((doc, idx) => (
+                                              <Badge key={idx} variant="outline" className="text-[11px]">
+                                                {doc}
+                                              </Badge>
+                                            ))
+                                          : <span className="text-[11px] text-slate-400">Nenhum artefato específico definido</span>}
+                                      </div>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      )}
+                    </div>
+                  ))}
+                </section>
+              )}
+            </>
+            );
+          })()}
+        </TabsContent>
+      </Tabs>
 
       {(scopeData.complianceISO9001 || scopeData.complianceISO27001 || scopeData.complianceISO27701) && (
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
