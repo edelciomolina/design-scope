@@ -163,9 +163,9 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
         <h4 className="text-sm font-medium text-slate-700">Itens de Trabalho</h4>
         <ul className="space-y-3">
           {session.workItems.map((item, itemIndex) => (
-            <li key={`${session.id}-${itemIndex}`} className="flex items-start gap-3 text-sm">
-              {/* Component type badge(s) left-aligned */}
-              <div className="flex flex-col items-center justify-center min-w-[70px] mr-2">
+            <li key={`${session.id}-${itemIndex}`} className="flex items-stretch gap-3 text-sm border-b border-slate-200 last:border-b-0 py-2">
+              {/* Badge left-aligned, vertically centered */}
+              <div className="flex flex-col justify-center min-w-[70px] items-start pr-2">
                 {item.documentTypes?.length ? (
                   item.documentTypes.map((doc, idx) => (
                     <Badge key={idx} variant="secondary" className="mb-1">
@@ -174,7 +174,7 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                   ))
                 ) : null}
               </div>
-              <div className="flex-1 flex gap-3 flex-wrap">
+              <div className="flex-1 flex items-center gap-2 flex-wrap">
                 <span className="text-slate-700">{item.text}</span>
                 {(item.iso9001 || item.iso27001Clauses || item.iso27001AnnexA || item.iso27701) && (
                   <div className="flex flex-wrap gap-1">
