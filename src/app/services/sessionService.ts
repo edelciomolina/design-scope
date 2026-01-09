@@ -2,6 +2,8 @@ import { DesignScopeData, RiskAssessment } from "../App";
 import sessionsConfig from "../data/sessions-config.json";
 import complianceDataDefault from "../data/data.json";
 
+export type ComplianceLevel = "minimum" | "ideal" | "exceptional";
+
 export interface WorkItem {
   text: string;
   documentTypes?: string[];
@@ -21,6 +23,8 @@ export interface SessionDefinition {
   status: "required" | "optional" | "not-applicable";
   reason?: string;
   source?: "rule" | "override";
+  // Nível pragmático de governança para a sessão, derivado de impacto e risco
+  complianceLevel: ComplianceLevel;
 }
 
 interface SessionConfig {
@@ -50,6 +54,12 @@ interface PersistResult {
   ok: boolean;
   message?: string;
 }
+
+type ImpactDimension =
+  | "customer-experience"
+  | "data-protection"
+  | "information-security"
+  | "service-continuity";
 
 // Local cache so we can apply overrides and persist changes
 let sessionsConfigCache: SessionConfig[] =
@@ -240,6 +250,7 @@ export function calculateApplicableSessions(
     let status: SessionDefinition["status"] = "optional";
     let reason = "";
     let source: SessionDefinition["source"] = "rule";
+    const matchedImpacts = new Set<ImpactDimension>();
 
     // Aplicar regra de override manual se existir
     if (sessionConfig.manual_override) {
@@ -258,6 +269,28 @@ export function calculateApplicableSessions(
           if (evaluateCondition(rule.condition, scopeData, riskAssessment)) {
             status = "required";
             reason = rule.reason;
+            // Mapear condição para dimensões de impacto, seguindo o filtro de decisão
+            switch (rule.condition) {
+              case "hasPersonalData":
+              case "hasSensitiveData":
+              case "hasPersistentData":
+              case "hasNewDataPurpose":
+                matchedImpacts.add("data-protection");
+                break;
+              case "hasCriticalActions":
+              case "hasSharing":
+              case "hasAuthorizationReq":
+              case "hasAuthenticationReq":
+              case "isHighRisk":
+                matchedImpacts.add("information-security");
+                break;
+              case "hasAffectedExistingUsers":
+              case "hasChangedBehavior":
+                matchedImpacts.add("customer-experience");
+                break;
+              default:
+                break;
+            }
             break;
           }
         }
@@ -285,6 +318,48 @@ export function calculateApplicableSessions(
       }
     );
 
+    // Se a sessão é sempre obrigatória mas não tem regra condicional,
+    // mapeamos impacto mínimo baseado no tipo de sessão (id) —
+    // foco em experiência ou dados, sem criar burocracia extra.
+    if (
+      sessionConfig.applicability_rules.always_required &&
+      matchedImpacts.size === 0
+    ) {
+      if (
+        [
+          "objective",
+          "user_journey",
+          "screens_interactions",
+          "errors_states"
+        ].includes(sessionConfig.id)
+      ) {
+        matchedImpacts.add("customer-experience");
+      }
+    }
+
+    const impactCount = matchedImpacts.size;
+
+    let complianceLevel: ComplianceLevel;
+    if (status === "not-applicable") {
+      // Fora de escopo: não exige governança adicional
+      complianceLevel = "minimum";
+    } else if (status === "required") {
+      // Mínimo necessário para demonstrar conformidade: não usamos nível
+      // "excepcional" em itens obrigatórios, apenas minimum/ideal.
+      if (impactCount <= 1) {
+        complianceLevel = "minimum";
+      } else {
+        complianceLevel = "ideal";
+      }
+    } else {
+      // Sessões opcionais: recomendadas, podendo ser excepcionais em cenários específicos
+      if (impactCount >= 3 && riskAssessment.riskLabel === "high") {
+        complianceLevel = "exceptional";
+      } else {
+        complianceLevel = "ideal";
+      }
+    }
+
     sessions.push({
       id: sessionConfig.id,
       title: sessionConfig.title,
@@ -294,7 +369,8 @@ export function calculateApplicableSessions(
       isOptional: status === "optional",
       status,
       reason,
-      source
+      source,
+      complianceLevel
     });
   });
 

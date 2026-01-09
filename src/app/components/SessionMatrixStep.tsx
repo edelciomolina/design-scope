@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
 import { CheckCircle2, Circle, Info, Loader2, ShieldAlert } from 'lucide-react';
 import { DesignScopeData, RiskAssessment, SessionStatus } from '../App';
-import { calculateApplicableSessions, SessionDefinition } from '../services/sessionService';
+import { calculateApplicableSessions, ComplianceLevel, SessionDefinition } from '../services/sessionService';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../components/ui/accordion';
@@ -75,6 +75,7 @@ interface IsoClauseItem {
   sessionTitle: string;
   workItemText: string;
   documentTypes?: string[];
+  complianceLevel?: ComplianceLevel;
 }
 
 interface IsoClauseGroup {
@@ -89,6 +90,7 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'sessions' | 'iso'>('sessions');
   const [onlyRequired, setOnlyRequired] = useState(true);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -102,6 +104,17 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
           name: session.title,
           status: session.status,
           reason: session.reason || '',
+          decisionDrivers: [
+            {
+              label:
+                session.complianceLevel === 'minimum'
+                  ? 'Mínimo necessário'
+                  : session.complianceLevel === 'ideal'
+                  ? 'Ideal (recomendado)'
+                  : 'Excepcional (maturidade avançada)',
+              active: true,
+            },
+          ],
         }))
       );
     } catch (err) {
@@ -112,7 +125,14 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
   }, [riskAssessment, scopeData, setSessions]);
 
   const requiredSessions = useMemo(() => sessionDefinitions.filter((s) => s.status === 'required'), [sessionDefinitions]);
-  const optionalSessions = useMemo(() => sessionDefinitions.filter((s) => s.status === 'optional'), [sessionDefinitions]);
+  const optionalSessions = useMemo(
+    () => sessionDefinitions.filter((s) => s.status === 'optional' && s.complianceLevel !== 'exceptional'),
+    [sessionDefinitions]
+  );
+  const exceptionalSessions = useMemo(
+    () => sessionDefinitions.filter((s) => s.complianceLevel === 'exceptional' && s.status !== 'not-applicable'),
+    [sessionDefinitions]
+  );
 
   const isoGroups = useMemo(
     () => {
@@ -148,6 +168,7 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                 sessionTitle: session.title,
                 workItemText: item.text,
                 documentTypes: item.documentTypes,
+                complianceLevel: session.complianceLevel,
               });
             });
           });
@@ -189,6 +210,30 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
     );
   }
 
+  const renderComplianceLevelBadge = (level: ComplianceLevel) => {
+    if (level === 'minimum') {
+      return (
+        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          Mínimo necessário
+        </span>
+      );
+    }
+
+    if (level === 'ideal') {
+      return (
+        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-sky-50 text-sky-700 border border-sky-200">
+          Ideal (recomendado)
+        </span>
+      );
+    }
+
+    return (
+      <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-violet-50 text-violet-700 border border-violet-200">
+        Excepcional (maturidade avançada)
+      </span>
+    );
+  };
+
   const renderSession = (session: SessionDefinition, index: number) => (
     <div key={session.id} className="bg-white border border-slate-200 rounded-lg p-6 space-y-4">
       <div className="flex items-start gap-3">
@@ -220,6 +265,9 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                 Override manual
               </span>
             )}
+            <div className="ml-2 flex items-center gap-2 text-[11px] text-slate-600">
+              {renderComplianceLevelBadge(session.complianceLevel)}
+            </div>
           </div>
           <p className="text-sm text-slate-600">{session.focus}</p>
           {session.reason && (
@@ -293,12 +341,21 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
             <TabsTrigger value="sessions">Visão por sessão</TabsTrigger>
             <TabsTrigger value="iso">Visão por norma ISO</TabsTrigger>
           </TabsList>
-          <div className="flex items-center gap-2 text-xs text-slate-700">
-            <Checkbox
-              checked={onlyRequired}
-              onCheckedChange={(checked) => setOnlyRequired(!!checked)}
-            />
-            <span>Somente se obrigatória</span>
+          <div className="flex items-center gap-4 text-xs text-slate-700">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={onlyRequired}
+                onCheckedChange={(checked) => setOnlyRequired(!!checked)}
+              />
+              <span>Somente se obrigatória</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                checked={showAdvanced}
+                onCheckedChange={(checked) => setShowAdvanced(!!checked)}
+              />
+              <span>Mostrar modo avançado (Excepcional)</span>
+            </div>
           </div>
         </div>
 
@@ -313,7 +370,31 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
           {optionalSessions.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-slate-900">Sessões Opcionais ({optionalSessions.length})</h2>
-              {optionalSessions.map((session, index) => renderSession(session, requiredSessions.length + index))}
+              <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-lg bg-slate-50">
+                <AccordionItem value="optional-sessions">
+                  <AccordionTrigger className="px-4 py-2 text-sm font-medium text-slate-700">
+                    Ver sessões opcionais recomendadas
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4 pt-0 space-y-4">
+                    {optionalSessions.map((session, index) =>
+                      renderSession(session, requiredSessions.length + index)
+                    )}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          )}
+
+          {showAdvanced && exceptionalSessions.length > 0 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-slate-900">Sessões Excepcionais (maturidade avançada)</h2>
+              <p className="text-xs text-slate-600 max-w-2xl">
+                Uso recomendado apenas para cenários de maior risco ou quando a equipe deseja elevar o nível de maturidade.
+                Não são exigidas para certificação, mas reduzem fricção em auditorias e incidentes.
+              </p>
+              {exceptionalSessions.map((session, index) =>
+                renderSession(session, requiredSessions.length + optionalSessions.length + index)
+              )}
             </div>
           )}
         </TabsContent>
@@ -359,7 +440,14 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-semibold text-slate-900">Cláusula {group.code}</span>
                         <span className="text-xs text-slate-500">
-                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                          {group.requiredItems.length} obrigatória(s) · {
+                            (showAdvanced
+                              ? group.optionalItems
+                              : group.optionalItems.filter(
+                                  (item) => item.complianceLevel !== 'exceptional'
+                                )
+                            ).length
+                          } opcional(is)
                         </span>
                       </div>
 
@@ -399,11 +487,21 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                         </div>
                       )}
 
-                      {group.optionalItems.length > 0 && (
+                      {(showAdvanced
+                        ? group.optionalItems
+                        : group.optionalItems.filter((item) => item.complianceLevel !== 'exceptional')
+                      ).length > 0 && (
                         <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
                           <AccordionItem value={`iso9001-${group.code}-opt`} className="border-b-0">
                             <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
-                              Itens opcionais recomendados ({group.optionalItems.length})
+                              Itens opcionais recomendados ({
+                                (showAdvanced
+                                  ? group.optionalItems
+                                  : group.optionalItems.filter(
+                                      (item) => item.complianceLevel !== 'exceptional'
+                                    )
+                                ).length
+                              })
                             </AccordionTrigger>
                             <AccordionContent className="pt-0">
                               <div className="border-t border-slate-200">
@@ -413,7 +511,12 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                                   <span>Artefatos / documentos</span>
                                 </div>
                                 <ul className="divide-y divide-slate-200">
-                                  {group.optionalItems.map((item, index) => (
+                                  {(showAdvanced
+                                    ? group.optionalItems
+                                    : group.optionalItems.filter(
+                                        (item) => item.complianceLevel !== 'exceptional'
+                                      )
+                                  ).map((item, index) => (
                                     <li
                                       key={`iso9001-${group.code}-opt-${index}`}
                                       className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
@@ -457,7 +560,14 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-semibold text-slate-900">Cláusula {group.code}</span>
                         <span className="text-xs text-slate-500">
-                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                          {group.requiredItems.length} obrigatória(s) · {
+                            (showAdvanced
+                              ? group.optionalItems
+                              : group.optionalItems.filter(
+                                  (item) => item.complianceLevel !== 'exceptional'
+                                )
+                            ).length
+                          } opcional(is)
                         </span>
                       </div>
 
@@ -497,11 +607,21 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                         </div>
                       )}
 
-                      {group.optionalItems.length > 0 && (
+                      {(showAdvanced
+                        ? group.optionalItems
+                        : group.optionalItems.filter((item) => item.complianceLevel !== 'exceptional')
+                      ).length > 0 && (
                         <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
                           <AccordionItem value={`iso27001-clause-${group.code}-opt`} className="border-b-0">
                             <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
-                              Itens opcionais recomendados ({group.optionalItems.length})
+                              Itens opcionais recomendados ({
+                                (showAdvanced
+                                  ? group.optionalItems
+                                  : group.optionalItems.filter(
+                                      (item) => item.complianceLevel !== 'exceptional'
+                                    )
+                                ).length
+                              })
                             </AccordionTrigger>
                             <AccordionContent className="pt-0">
                               <div className="border-t border-slate-200">
@@ -511,7 +631,12 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                                   <span>Artefatos / documentos</span>
                                 </div>
                                 <ul className="divide-y divide-slate-200">
-                                  {group.optionalItems.map((item, index) => (
+                                  {(showAdvanced
+                                    ? group.optionalItems
+                                    : group.optionalItems.filter(
+                                        (item) => item.complianceLevel !== 'exceptional'
+                                      )
+                                  ).map((item, index) => (
                                     <li
                                       key={`iso27001-clause-${group.code}-opt-${index}`}
                                       className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
@@ -555,7 +680,14 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-semibold text-slate-900">Controle {group.code}</span>
                         <span className="text-xs text-slate-500">
-                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                          {group.requiredItems.length} obrigatória(s) · {
+                            (showAdvanced
+                              ? group.optionalItems
+                              : group.optionalItems.filter(
+                                  (item) => item.complianceLevel !== 'exceptional'
+                                )
+                            ).length
+                          } opcional(is)
                         </span>
                       </div>
 
@@ -595,11 +727,21 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                         </div>
                       )}
 
-                      {group.optionalItems.length > 0 && (
+                      {(showAdvanced
+                        ? group.optionalItems
+                        : group.optionalItems.filter((item) => item.complianceLevel !== 'exceptional')
+                      ).length > 0 && (
                         <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
                           <AccordionItem value={`iso27001-annex-${group.code}-opt`} className="border-b-0">
                             <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
-                              Itens opcionais recomendados ({group.optionalItems.length})
+                              Itens opcionais recomendados ({
+                                (showAdvanced
+                                  ? group.optionalItems
+                                  : group.optionalItems.filter(
+                                      (item) => item.complianceLevel !== 'exceptional'
+                                    )
+                                ).length
+                              })
                             </AccordionTrigger>
                             <AccordionContent className="pt-0">
                               <div className="border-t border-slate-200">
@@ -609,7 +751,12 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                                   <span>Artefatos / documentos</span>
                                 </div>
                                 <ul className="divide-y divide-slate-200">
-                                  {group.optionalItems.map((item, index) => (
+                                  {(showAdvanced
+                                    ? group.optionalItems
+                                    : group.optionalItems.filter(
+                                        (item) => item.complianceLevel !== 'exceptional'
+                                      )
+                                  ).map((item, index) => (
                                     <li
                                       key={`iso27001-annex-${group.code}-opt-${index}`}
                                       className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
@@ -653,7 +800,14 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-semibold text-slate-900">Cláusula {group.code}</span>
                         <span className="text-xs text-slate-500">
-                          {group.requiredItems.length} obrigatória(s) · {group.optionalItems.length} opcional(is)
+                          {group.requiredItems.length} obrigatória(s) · {
+                            (showAdvanced
+                              ? group.optionalItems
+                              : group.optionalItems.filter(
+                                  (item) => item.complianceLevel !== 'exceptional'
+                                )
+                            ).length
+                          } opcional(is)
                         </span>
                       </div>
 
@@ -693,11 +847,21 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                         </div>
                       )}
 
-                      {group.optionalItems.length > 0 && (
+                      {(showAdvanced
+                        ? group.optionalItems
+                        : group.optionalItems.filter((item) => item.complianceLevel !== 'exceptional')
+                      ).length > 0 && (
                         <Accordion type="single" collapsible className="border border-dashed border-slate-200 rounded-md bg-white">
                           <AccordionItem value={`iso27701-${group.code}-opt`} className="border-b-0">
                             <AccordionTrigger className="px-3 py-2 text-xs font-medium text-slate-700">
-                              Itens opcionais recomendados ({group.optionalItems.length})
+                              Itens opcionais recomendados ({
+                                (showAdvanced
+                                  ? group.optionalItems
+                                  : group.optionalItems.filter(
+                                      (item) => item.complianceLevel !== 'exceptional'
+                                    )
+                                ).length
+                              })
                             </AccordionTrigger>
                             <AccordionContent className="pt-0">
                               <div className="border-t border-slate-200">
@@ -707,7 +871,12 @@ export function SessionMatrixStep({ scopeData, riskAssessment, sessions: _sessio
                                   <span>Artefatos / documentos</span>
                                 </div>
                                 <ul className="divide-y divide-slate-200">
-                                  {group.optionalItems.map((item, index) => (
+                                  {(showAdvanced
+                                    ? group.optionalItems
+                                    : group.optionalItems.filter(
+                                        (item) => item.complianceLevel !== 'exceptional'
+                                      )
+                                  ).map((item, index) => (
                                     <li
                                       key={`iso27701-${group.code}-opt-${index}`}
                                       className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)_minmax(0,1fr)] gap-3 px-3 py-2 text-sm text-slate-700"
