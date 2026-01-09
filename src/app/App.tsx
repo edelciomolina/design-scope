@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { DesignScopeStep } from './components/DesignScopeStep';
 import { RiskAssessmentStep } from './components/RiskAssessmentStep';
 import { SessionMatrixStep } from './components/SessionMatrixStep';
-import { NewSessionMatrixStep } from './components/NewSessionMatrixStep';
 import { ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { Button } from './components/ui/button';
 
@@ -160,7 +159,7 @@ function App() {
   const steps = [
     { number: 1, title: 'Design Scope Card', component: DesignScopeStep },
     { number: 2, title: 'Análise de Risco', component: RiskAssessmentStep },
-    { number: 3, title: 'Sessões Aplicáveis', component: NewSessionMatrixStep },
+    { number: 3, title: 'Sessões Aplicáveis', component: SessionMatrixStep },
   ];
 
   const currentStepData = steps[currentStep - 1];
